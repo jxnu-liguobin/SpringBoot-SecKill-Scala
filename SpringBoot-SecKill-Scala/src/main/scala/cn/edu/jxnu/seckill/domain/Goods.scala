@@ -14,29 +14,29 @@ class Goods {
     /** BeanProperty 生成与Java兼容的set/get方法，但属性不能为private，所以我设置为包级 ，implicitConversions 支持Scala-Java隐式类型转换*/
     //商品id
     @BeanProperty
-    private[domain] var id: Long = _
+    var id: Long = _
 
     //商品名称
     @BeanProperty
-    private[domain] var goodsName: String = _
+    var goodsName: String = _
 
     //商品标题
     @BeanProperty
-    private[domain] var goodsTitle: String = _
+    var goodsTitle: String = _
 
     //商品图片
     @BeanProperty
-    private[domain] var goodsImg: String = _
+    var goodsImg: String = _
 
     //商品描述
     @BeanProperty
-    private[domain] var goodsDetail: String = _
+    var goodsDetail: String = _
 
     //商品价格
     @BeanProperty
-    private[domain] var goodsPrice: String = _
+    var goodsPrice: String = _
 
     //商品库存
     @BeanProperty
-    private[domain] var goodsStock: String = _
+    var goodsStock: String = _
 }
