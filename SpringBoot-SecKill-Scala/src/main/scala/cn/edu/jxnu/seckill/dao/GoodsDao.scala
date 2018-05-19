@@ -1,4 +1,5 @@
 package cn.edu.jxnu.seckill.dao
+
 import scala.language.implicitConversions
 import scala.collection.JavaConversions._
 import scala.collection.immutable.{ List => _, _ }
@@ -8,9 +9,7 @@ import org.apache.ibatis.annotations.Select
 import org.apache.ibatis.annotations.Param
 import org.apache.ibatis.annotations.Update
 import cn.edu.jxnu.seckill.domain.SeckillGoods
-import cn.edu.jxnu.seckill.domain.SeckillGoods
 import cn.edu.jxnu.seckill.vo.GoodsVo
-import org.mybatis.spring.annotation.MapperScan
 
 trait GoodsDao {
 
