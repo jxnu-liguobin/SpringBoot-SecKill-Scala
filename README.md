@@ -1,7 +1,7 @@
 # SpringBoot-SecKill-Scala
 
 
-### Scala语言实现的慕课网秒杀系统
+### Scala语言实现的慕课网秒杀系统【开发中】
 
         语言与主体框架支持
             SpringBoot1.5.8
