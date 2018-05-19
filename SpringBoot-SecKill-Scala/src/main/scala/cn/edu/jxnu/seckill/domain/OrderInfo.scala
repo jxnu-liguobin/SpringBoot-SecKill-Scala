@@ -14,45 +14,52 @@ class OrderInfo {
 
     //订单id
     @BeanProperty
-    private[domain] var id: Long = _
+    var id: Long = _
 
     //下单用户id
     @BeanProperty
-    private[domain] var userId: Long = _
+    var userId: Long = _
 
     //商品id
     @BeanProperty
-    private[domain] var goodsId: Long = _
+    var goodsId: Long = _
 
     //交付地址id
     @BeanProperty
-    private[domain] var deliveryAddrId: Long = _
+    var deliveryAddrId: Long = _
 
     //商品名称
     @BeanProperty
-    private[domain] var goodsName: String = _
+    var goodsName: String = _
 
     //商品数量
     @BeanProperty
-    private[domain] var goodsCount: Integer = _
+    var goodsCount: Integer = _
 
     //商品价格
     @BeanProperty
-    private[domain] var goodsPrice: Double = _
+    var goodsPrice: Double = _
 
     //订单通道
     @BeanProperty
-    private[domain] var orderChannel: Integer = _
+    var orderChannel: Integer = _
 
     //订单状态
     @BeanProperty
-    private[domain] var status: Integer = _
+    var status: Integer = _
 
     //创建日期
     @BeanProperty
-    private[domain] var createDate: Date = _
+    var createDate: Date = _
 
     //支付日期
     @BeanProperty
-    private[domain] var payDate: Date = _
+    var payDate: Date = _
+
+    override def toString(): String = {
+        "OrderInfo [id=" + id + ", userId=" + userId + ", goodsId=" + goodsId + ", deliveryAddrId="
+        +deliveryAddrId + ", goodsName=" + goodsName + ", goodsCount=" + goodsCount + ", goodsPrice="
+        +goodsPrice + ", orderChannel=" + orderChannel + ", status=" + status + ", createDate=" + createDate +
+            ", payDate=" + payDate + "]"
+    }
 }

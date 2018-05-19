@@ -14,18 +14,22 @@ class SeckillOrder {
 
     //秒杀订单实体 id
     @BeanProperty
-    private[domain] var id: Long = _
+    var id: Long = _
 
     //用户id
     @BeanProperty
-    private[domain] var userId: Long = _
+    var userId: Long = _
 
     //订单id
     @BeanProperty
-    private[domain] var orderId: Long = _
+    var orderId: Long = _
 
     //商品id
     @BeanProperty
-    private[domain] var goodsId: Long = _
+    var goodsId: Long = _
+
+    override def toString(): String = {
+        "SeckillOrder [id=" + id + ", userId=" + userId + ", orderId=" + orderId + ", goodsId=" + goodsId + "]"
+    }
 
 }

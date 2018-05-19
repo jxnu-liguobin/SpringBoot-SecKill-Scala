@@ -14,34 +14,40 @@ class SeckillUser {
 
     //秒杀用户实体  id
     @BeanProperty
-    private[domain] var id: Long = _
+    var id: Long = _
 
     //用户昵称
     @BeanProperty
-    private[domain] var nickname: String = _
+    var nickname: String = _
 
     //用户密码
     @BeanProperty
-    private[domain] var password: String = _
+    var password: String = _
 
     //盐值
     @BeanProperty
-    private[domain] var salt: String = _
+    var salt: String = _
 
     //head
     @BeanProperty
-    private[domain] var head: String = _
+    var head: String = _
 
     //注册日期
     @BeanProperty
-    private[domain] var registerDate: Date = _
+    var registerDate: Date = _
 
     //最近登陆日期
     @BeanProperty
-    private[domain] var lastLoginDate: Date = _
+    var lastLoginDate: Date = _
 
     //登陆次数
     @BeanProperty
-    private[domain] var loginCount: Integer = _
+    var loginCount: Integer = _
+
+    override def toString(): String = {
+        "SeckillUser [id=" + id + ", nickname=" + nickname + ", password=" + password +
+            ", salt=" + salt + ", head=" + head + ", registerDate=" + registerDate + ", lastLoginDate=" + lastLoginDate +
+            ", loginCount=" + loginCount + "]"
+    }
 
 }

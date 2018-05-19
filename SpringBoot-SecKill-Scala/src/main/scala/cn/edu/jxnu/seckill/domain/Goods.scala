@@ -39,4 +39,15 @@ class Goods {
     //商品库存
     @BeanProperty
     var goodsStock: String = _
+
+    /**
+     * 重写父类非抽象方法，必须加override
+     *
+     * 字符拼接的时候 + 不能在最前面
+     */
+    override def toString(): String = {
+        "Goods [id=" + id + ", goodsName=" + goodsName + ", goodsTitle=" + goodsTitle +
+            ", goodsImg=" + goodsImg + ", goodsDetail=" + goodsDetail + ", goodsPrice=" + goodsPrice +
+            ", goodsStock=" + goodsStock + "]"
+    }
 }

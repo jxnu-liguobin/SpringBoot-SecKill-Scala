@@ -13,10 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired
 import cn.edu.jxnu.seckill.vo.GoodsVo
 import cn.edu.jxnu.seckill.result.Result
 import cn.edu.jxnu.seckill.result.CodeMsg
+import cn.edu.jxnu.seckill.service.GoodsService
 
 @RestController
 @RequestMapping(Array("/sample"))
-class SampleController @Autowired() (val goodsDao: GoodsDao) {
+class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService) {
 
     /**
      * Hello World
@@ -58,6 +59,18 @@ class SampleController @Autowired() (val goodsDao: GoodsDao) {
     @RequestMapping(Array("/error"))
     def error(): Result[CodeMsg] = {
         Result.error(CodeMsg.SERVER_ERROR)
+    }
+
+    /**
+     * 测试服务层写法
+     * 并测试toString方法
+     */
+    @RequestMapping(Array("/service"))
+    def service() = {
+        for (g <- goodsService.listGoodsVo()) {
+            println("商品视图对象toString方法=>" + g)
+        }
+        goodsService.listGoodsVo();
     }
 
 }

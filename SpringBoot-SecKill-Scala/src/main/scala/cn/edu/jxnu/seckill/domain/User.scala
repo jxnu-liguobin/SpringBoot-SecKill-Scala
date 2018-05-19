@@ -14,9 +14,14 @@ class User {
 
     //用户id
     @BeanProperty
-    private[domain] var id: Integer = _
+    var id: Integer = _
 
     //用户名
     @BeanProperty
-    private[domain] var name: String = _
+    var name: String = _
+
+    override def toString(): String = {
+        "User [id=" + id + ", name=" + name + "]"
+    }
+
 }
