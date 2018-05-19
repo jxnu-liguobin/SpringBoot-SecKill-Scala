@@ -21,15 +21,15 @@ import cn.edu.jxnu.seckill.vo.GoodsVo
 trait GoodsDao {
 
     @Select(Array("select g.*,mg.stock_count, mg.start_date, mg.end_date,mg.seckill_price from seckill_goods mg left join goods g on mg.goods_id = g.id"))
-    def listGoodsVo(): JavaList[GoodsVo];
+    def listGoodsVo(): JavaList[GoodsVo]
 
     @Select(Array("select g.*,mg.stock_count, mg.start_date, mg.end_date,mg.seckill_price from seckill_goods mg left join goods g on mg.goods_id = g.id where g.id = #{goodsId}"))
-    def getGoodsVoByGoodsId(@Param("goodsId") goodsId: Long): GoodsVo;
+    def getGoodsVoByGoodsId(@Param("goodsId") goodsId: Long): GoodsVo
 
     @Update(Array("update seckill_goods set stock_count = stock_count - 1 where goods_id = #{goodsId} and stock_count > 0"))
-    def reduceStock(g: SeckillGoods): Integer;
+    def reduceStock(g: SeckillGoods): Integer
 
     @Update(Array("update seckill_goods set stock_count = #{stockCount} where goods_id = #{goodsId}"))
-    def resetStock(g: SeckillGoods): Integer;
+    def resetStock(g: SeckillGoods): Integer
 
 }

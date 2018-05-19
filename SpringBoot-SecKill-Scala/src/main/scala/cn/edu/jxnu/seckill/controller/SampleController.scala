@@ -23,7 +23,7 @@ class SampleController @Autowired() (val goodsDao: GoodsDao) {
      */
     @RequestMapping(Array("/hello"))
     def home() = {
-        "Hello World!";
+        "Hello World!"
     }
 
     /**
@@ -31,8 +31,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao) {
      */
     @RequestMapping(Array("/thymeleaf"))
     def thymeleaf(model: Model) = {
-        model.addAttribute("name", "HiphopMan");
-        "hello";
+        model.addAttribute("name", "HiphopMan")
+        "hello"
     }
 
     /**
@@ -40,7 +40,7 @@ class SampleController @Autowired() (val goodsDao: GoodsDao) {
      */
     @RequestMapping(Array("/db/get"))
     def dbGet(): JavaList[GoodsVo] = {
-        goodsDao.listGoodsVo();
+        goodsDao.listGoodsVo()
     }
 
     /**

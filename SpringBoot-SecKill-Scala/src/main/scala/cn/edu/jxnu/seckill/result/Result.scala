@@ -41,8 +41,8 @@ class Result[T]() {
         if (msg == null) {
             //TODO Scala这里不能写return
         }
-        this.code = msg.getCode();
-        this.msg = msg.getMsg();
+        this.code = msg.getCode()
+        this.msg = msg.getMsg()
     }
 
 }
@@ -50,11 +50,11 @@ class Result[T]() {
 object Result {
 
     def success[T](data: T): Result[T] = {
-        return new Result[T](data);
+        return new Result[T](data)
 
     }
 
     def error[T](cm: CodeMsg): Result[T] = {
-        return new Result[T](cm);
+        return new Result[T](cm)
     }
 }
