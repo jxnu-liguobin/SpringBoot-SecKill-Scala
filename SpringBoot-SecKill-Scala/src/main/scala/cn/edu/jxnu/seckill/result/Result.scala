@@ -21,7 +21,7 @@ class Result[T]() {
     var data: T = _
 
     //全参构造
-    def this(code: Integer, msg: String, data: T) {
+    private def this(code: Integer, msg: String, data: T) {
         this()
         this.code = code
         this.msg = msg

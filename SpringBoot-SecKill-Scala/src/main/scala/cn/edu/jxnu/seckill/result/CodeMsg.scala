@@ -23,7 +23,7 @@ class CodeMsg() {
         return new CodeMsg(code, message)
     }
 
-    def this(code: Integer, msg: String) {
+    private def this(code: Integer, msg: String) {
         this()
         this.code = code
         this.msg = msg
@@ -34,6 +34,9 @@ class CodeMsg() {
     }
 }
 
+/**
+ * 状态码伴生对象，定义常量
+ */
 object CodeMsg {
 
     // 通用的错误码

@@ -11,6 +11,13 @@ import org.apache.ibatis.annotations.Update
 import cn.edu.jxnu.seckill.domain.SeckillGoods
 import cn.edu.jxnu.seckill.vo.GoodsVo
 
+/**
+ * 商品dao
+ *
+ * @author 梦境迷离.
+ * @time 2018年5月19日
+ * @version v1.0
+ */
 trait GoodsDao {
 
     @Select(Array("select g.*,mg.stock_count, mg.start_date, mg.end_date,mg.seckill_price from seckill_goods mg left join goods g on mg.goods_id = g.id"))
