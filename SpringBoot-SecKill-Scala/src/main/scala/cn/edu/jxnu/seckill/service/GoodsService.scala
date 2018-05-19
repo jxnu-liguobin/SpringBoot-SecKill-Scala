@@ -30,7 +30,7 @@ class GoodsService @Autowired() (val goodsDao: GoodsDao) {
         goodsDao.reduceStock(g) > 0
     }
 
-    def resetStock(goodsList: List[GoodsVo]) {
+    def resetStock(goodsList: JavaList[GoodsVo]) {
         for (goods <- goodsList) {
             val g = new SeckillGoods()
             g.setGoodsId(goods.getId())

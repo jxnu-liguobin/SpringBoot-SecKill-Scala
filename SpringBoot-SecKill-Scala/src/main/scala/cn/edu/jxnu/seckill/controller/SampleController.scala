@@ -70,7 +70,7 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
         for (g <- goodsService.listGoodsVo()) {
             println("商品视图对象toString方法=>" + g)
         }
-        goodsService.listGoodsVo();
+        goodsService.listGoodsVo()
     }
 
 }
