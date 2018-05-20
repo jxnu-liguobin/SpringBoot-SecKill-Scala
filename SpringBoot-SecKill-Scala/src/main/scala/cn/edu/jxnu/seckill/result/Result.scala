@@ -1,4 +1,5 @@
 package cn.edu.jxnu.seckill.result
+
 import scala.language.implicitConversions
 import scala.beans.BeanProperty
 

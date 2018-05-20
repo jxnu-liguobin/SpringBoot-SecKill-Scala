@@ -1,4 +1,5 @@
 package cn.edu.jxnu.seckill.util
+
 import scala.language.implicitConversions
 import scala.collection.JavaConversions._
 import scala.collection.immutable.{ List => _, _ }
