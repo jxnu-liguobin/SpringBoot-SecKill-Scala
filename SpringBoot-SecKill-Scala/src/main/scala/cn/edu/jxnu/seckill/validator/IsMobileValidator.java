@@ -8,13 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 import cn.edu.jxnu.seckill.util.ValidatorUtil;
 
 /**
- * Java实现的手机号验证
- * 
- * 待修改
- *
- * @author 梦境迷离.
- * @time 2018年5月20日
- * @version v1.0
+ * Created by lh on 2018/4/19.
  */
 public class IsMobileValidator implements ConstraintValidator<IsMobile, String> {
 

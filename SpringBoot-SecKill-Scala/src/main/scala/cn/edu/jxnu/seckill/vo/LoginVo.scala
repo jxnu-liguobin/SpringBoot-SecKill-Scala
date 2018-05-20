@@ -4,6 +4,7 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.validator.constraints.Length;
 import cn.edu.jxnu.seckill.validator.IsMobile;
 import scala.language.implicitConversions
+import scala.beans.BeanProperty
 
 /**
  * 登陆视图对象
@@ -19,6 +20,7 @@ class LoginVo {
      */
     @NotNull
     @IsMobile
+    @BeanProperty
     var mobile: String = _
 
     /**
@@ -26,6 +28,7 @@ class LoginVo {
      */
     @NotNull
     @Length(min = 32)
+    @BeanProperty
     var password: String = _
 
     override def toString() =

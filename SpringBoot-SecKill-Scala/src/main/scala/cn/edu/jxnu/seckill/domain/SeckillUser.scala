@@ -13,7 +13,7 @@ import java.util.Date;
  */
 class SeckillUser {
 
-    //秒杀用户实体  id
+    //秒杀用户实体  id，手机号码
     @BeanProperty
     var id: Long = _
 
@@ -21,7 +21,7 @@ class SeckillUser {
     @BeanProperty
     var nickname: String = _
 
-    //用户密码
+    //用户密码md5(md5(pass明文+固定salt)+随机salt)
     @BeanProperty
     var password: String = _
 
@@ -29,7 +29,7 @@ class SeckillUser {
     @BeanProperty
     var salt: String = _
 
-    //head
+    //head 头像
     @BeanProperty
     var head: String = _
 
