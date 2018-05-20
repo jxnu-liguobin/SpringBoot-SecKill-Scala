@@ -6,15 +6,13 @@ import org.apache.commons.lang3.StringUtils
 /**
  * 验证工具
  *
+ * 注解使用的是Java,由于Java调用半生对象失败，未知原因，改用普通类
+ *
  * @author 梦境迷离.
  * @time 2018年5月19日
  * @version v1.0
  */
-class ValidatorUtil {
-
-}
-
-object ValidatorUtil {
+class ValidatorUtilScala {
 
     private final val mobile_pattern: Pattern =
         Pattern.compile("^((17[0-9])|(14[0-9])|(13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$")
@@ -25,10 +23,13 @@ object ValidatorUtil {
         }
         mobile_pattern.matcher(src).matches()
     }
+}
+
+object ValidatorUtil {
 
     def main(args: Array[String]): Unit = {
-        println(isMobile("18912341234"))
-        println(isMobile("1891234123"))
+        println(new ValidatorUtilScala().isMobile("18912341234"))
+        println(new ValidatorUtilScala().isMobile("1891234123"))
     }
 
 }
