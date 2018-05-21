@@ -25,6 +25,8 @@ import cn.edu.jxnu.seckill.service.SeckillUserService
  *
  * PS：由于if等导致的副作用可能会使没有加return的语句继续向下指向而抛出空指针
  *
+ *
+ * 重要提示：循环和if里面的return千万不要省略，会造成无法正常返回。一般就最后的return省略即可
  * @author 梦境迷离.
  * @time 2018年5月20日
  * @version v1.0
