@@ -22,7 +22,6 @@ class UserArgumentResolver @Autowired() (val userService: SeckillUserService)
     }
 
     override def supportsParameter(methodParameter: MethodParameter): Boolean = {
-        val clazz = methodParameter.getParameterType()
-        return clazz == classOf[SeckillUser]
+        methodParameter.getParameterType() == classOf[SeckillUser]
     }
 }

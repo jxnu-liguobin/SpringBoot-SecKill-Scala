@@ -21,6 +21,7 @@ import cn.edu.jxnu.seckill.redis.key.GoodsKey
 import org.springframework.web.bind.annotation.PathVariable
 import cn.edu.jxnu.seckill.result.Result
 import cn.edu.jxnu.seckill.vo.GoodsDetailVo
+import org.slf4j.LoggerFactory
 
 /**
  * 商品控制器
@@ -35,15 +36,20 @@ class GoodsController @Autowired() (goodsService: GoodsService,
     redisService: RedisService, thymeleafViewResolver: ThymeleafViewResolver,
     applicationContext: ApplicationContext) {
 
+    private final val log = LoggerFactory.getLogger(classOf[GoodsController])
+
     /**
      * 商品列表 QPS:123.9 1000 * 10
      */
     @RequestMapping(Array("/to_list"))
     def list(request: HttpServletRequest, response: HttpServletResponse, model: Model, user: SeckillUser): String = {
+        
+        //TODO 空指针
+       // log.info("商品列表秒杀用户:"+user.toString())
         // 取缓存
         var html = redisService.get(GoodsKey.getGoodsList, "", classOf[String])
         if (!StringUtils.isEmpty(html))
-            html
+            return html
         model.addAttribute("user", user)
         // 查询商品列表
         val goodsList = goodsService.listGoodsVo()
@@ -63,6 +69,8 @@ class GoodsController @Autowired() (goodsService: GoodsService,
     def detail(request: HttpServletRequest, response: HttpServletResponse, model: Model,
         user: SeckillUser, @PathVariable("goodsId") goodsId: Long): Result[GoodsDetailVo] = {
 
+        //TODO 这里空指针
+        //log.info("查看商品详情携带的用户:"+user.toString())
         val goods = goodsService.getGoodsVoByGoodsId(goodsId)
         val startAt = goods.getStartDate().getTime()
         val endAt = goods.getEndDate().getTime()

@@ -15,6 +15,7 @@ import cn.edu.jxnu.seckill.redis.key.SeckillUserKey
 import org.apache.commons.lang3.StringUtils
 import javax.servlet.http.Cookie
 import cn.edu.jxnu.seckill.util.UUIDUtil
+import org.slf4j.LoggerFactory
 
 /**
  * 秒杀用户服务层
@@ -27,6 +28,8 @@ import cn.edu.jxnu.seckill.util.UUIDUtil
 class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     redisService: RedisService) {
 
+    private final val log = LoggerFactory.getLogger(classOf[SeckillUserService])
+
     def login(response: HttpServletResponse, @Valid loginVo: LoginVo): String = {
         if (loginVo == null)
             throw new GlobalException(CodeMsg.SERVER_ERROR)
@@ -34,6 +37,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         val formPass = loginVo.getPassword()
         // 判断手机号是否存在
         val user = getById(mobile.toLong)
+        log.info("当前手机号:" + mobile.toLong)
         if (user == null)
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST)
         // 验证密码
@@ -44,6 +48,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
             throw new GlobalException(CodeMsg.PASSWORD_ERROR)
         // 生成cookie
         val token = UUIDUtil.uuid()
+        log.info("当前添加至cookie的user的token:" + token)
         addCookie(response, token, user)
         token
     }
@@ -51,11 +56,15 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     def getById(id: Long): SeckillUser = {
         // 取缓存
         var user = redisService.get(SeckillUserKey.getById, "" + id, classOf[SeckillUser])
-        if (user != null)
-            user
+        if (user != null) {
+            log.info("当前从redis取出的user:" + user.toString())
+            return user
+        }
         user = seckillUserDao.getById(id)
-        if (user != null)
+        if (user != null) {
+            log.info("当前放进redis的user:" + user.toString())
             redisService.set(SeckillUserKey.getById, "" + id, user)
+        }
         user
     }
 
@@ -77,8 +86,12 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     }
 
     private def addCookie(response: HttpServletResponse, token: String, user: SeckillUser) {
+
+        //TODO 这里存在用户
         redisService.set(SeckillUserKey.token, token, user)
+        log.info("登陆用户token:" + token.toString() + "  redis:" + user.toString())
         val cookie = new Cookie(SeckillUserService.COOKI_NAME_TOKEN, token)
+        log.info("登陆用户token:" + token.toString())
         cookie.setMaxAge(SeckillUserKey.token.expireSeconds())
         cookie.setPath("/")
         response.addCookie(cookie)
@@ -86,7 +99,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
 
     def getByToken(response: HttpServletResponse, token: String): SeckillUser = {
         if (StringUtils.isEmpty(token))
-            null
+            return null
         val user = redisService.get(SeckillUserKey.token, token, classOf[SeckillUser])
         // 延长有效期
         if (user != null)
@@ -98,6 +111,6 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
 
 object SeckillUserService {
 
-    final val COOKI_NAME_TOKEN: String = "token"
+    final val COOKI_NAME_TOKEN = "token"
 
 }

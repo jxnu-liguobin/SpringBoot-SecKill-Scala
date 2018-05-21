@@ -14,6 +14,7 @@ import java.util.Arrays
 import java.lang.Long
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
+import org.slf4j.LoggerFactory
 
 /**
  * Redis服务层
@@ -25,6 +26,8 @@ import com.alibaba.fastjson.serializer.SerializerFeature
 @Service
 class RedisService @Autowired() (val jedisPool: JedisPool) {
 
+    private final val log = LoggerFactory.getLogger(classOf[RedisService])
+
     def get[T](prefix: KeyPrefix, key: String, clazz: Class[T]): T = {
         var jedis: Jedis = null
         try {
@@ -32,6 +35,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
             val str = jedis.get(realKey)
+             log.info("redis:get->" + str)
             RedisService.stringToBean(str, clazz)
         } finally {
             RedisService.returnToPool(jedis)
@@ -51,6 +55,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
                 false
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
+            log.info("redis:set->" + realKey)
             val seconds = prefix.expireSeconds()
             if (seconds <= 0)
                 jedis.set(realKey, str)
@@ -189,7 +194,7 @@ object RedisService {
             "" + value
         } else {
             //TODO 对齐的JSON，必须加true/false,否则有二义性，与Java不同
-            JSON.toJSONString(value, true)
+            JSON.toJSONString(value, false)
         }
     }
 

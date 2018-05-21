@@ -51,12 +51,12 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     def getMiaoshaPath(request: HttpServletRequest, user: SeckillUser,
         @RequestParam("goodsId") goodsId: Long,
         @RequestParam(value        = "verifyCode", defaultValue = "0") verifyCode: Integer): Result[String] = {
-        
+
         if (user == null)
-            Result.error(CodeMsg.SESSION_ERROR)
+            return Result.error(CodeMsg.SESSION_ERROR)
         val check = seckillService.checkVerifyCode(user, goodsId, verifyCode)
         if (!check)
-            Result.error(CodeMsg.REQUEST_ILLEGAL)
+            return Result.error(CodeMsg.REQUEST_ILLEGAL)
         val path = seckillService.createSeckillPath(user, goodsId)
         Result.success(path)
     }
@@ -64,28 +64,28 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     @PostMapping(Array("/{path}/do_seckill"))
     def seckill(model: Model, user: SeckillUser, @RequestParam("goodsId") goodsId: Long,
         @PathVariable("path") path: String): Result[Integer] = {
-        
+
         model.addAttribute("user", user)
         if (user == null)
-            Result.error(CodeMsg.SESSION_ERROR)
+            return Result.error(CodeMsg.SESSION_ERROR)
         // 验证path
         val check = seckillService.checkPath(user, goodsId, path)
         if (!check)
-            Result.error(CodeMsg.REQUEST_ILLEGAL)
+            return Result.error(CodeMsg.REQUEST_ILLEGAL)
         // 内存标记，减少redis访问
         val over = localOverMap.get(goodsId)
         if (over)
-            Result.error(CodeMsg.SECKILL_OVER)
+            return Result.error(CodeMsg.SECKILL_OVER)
         // 预减库存
         val stock = redisService.decr(GoodsKey.getSeckillGoodsStock, "" + goodsId) // 10
         if (stock < 0) {
             localOverMap.put(goodsId, true)
-            Result.error(CodeMsg.SECKILL_OVER)
+            return Result.error(CodeMsg.SECKILL_OVER)
         }
         // 判断是否已经秒杀到了
         val order = orderService.getSeckillOrderByUserIdGoodsId(user.getId(), goodsId)
         if (order != null)
-            Result.error(CodeMsg.REPEATE_SECKILL)
+            return Result.error(CodeMsg.REPEATE_SECKILL)
         // 入队
         val mm = new SeckillMessage()
         mm.setUser(user)
@@ -110,16 +110,16 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
 
     @GetMapping(Array("/result"))
     def miaoshaResult(model: Model, user: SeckillUser, @RequestParam("goodsId") goodsId: Long): Result[Long] = {
-        
+
         model.addAttribute("user", user)
         if (user == null)
-            Result.error(CodeMsg.SESSION_ERROR)
+            return Result.error(CodeMsg.SESSION_ERROR)
         val result = seckillService.getSeckillResult(user.getId(), goodsId)
         Result.success(result)
     }
 
     override def afterPropertiesSet() {
-        
+
         val goodsList = goodsService.listGoodsVo()
         if (goodsList == null)
             return
@@ -131,7 +131,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
 
     @GetMapping(Array("/reset"))
     def reset(model: Model): Result[Boolean] = {
-        
+
         val goodsList = goodsService.listGoodsVo()
         for (goods <- goodsList) {
             goods.setStockCount(10)
@@ -147,9 +147,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     @GetMapping(Array("/verifyCode"))
     def getMiaoshaVerifyCod(response: HttpServletResponse, user: SeckillUser,
         @RequestParam("goodsId") goodsId: Long): Result[String] = {
-        
+
         if (user == null)
-            Result.error(CodeMsg.SESSION_ERROR)
+            return Result.error(CodeMsg.SESSION_ERROR)
         try {
             val image = seckillService.createVerifyCode(user, goodsId)
             val out = response.getOutputStream()

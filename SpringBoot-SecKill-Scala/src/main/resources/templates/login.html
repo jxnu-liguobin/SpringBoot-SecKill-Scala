@@ -18,7 +18,14 @@
     <script type="text/javascript" th:src="@{/js/md5.min.js}"></script>
     <!-- common.js -->
     <script type="text/javascript" th:src="@{/js/common.js}"></script>
-    
+    <style>  
+.col-center-block {  
+    float: none;  
+    display: block;  
+    margin-left: auto;  
+    margin-right: auto;  
+}  
+</style>
 </head>
 <body>
 
@@ -46,12 +53,10 @@
       		</div>
 	</div>
 	
-	<div class="row">
-		     	<div class="col-md-5">
-	       	 		<button class="btn btn-primary btn-block" type="reset" onclick="reset()">重置</button>
-	       	 	</div>
-	       	 	<div class="col-md-5">
-	       	 		<button class="btn btn-primary btn-block" type="submit" onclick="login()">登录</button>
+	<div class="row col-center-block ">
+		     	<div class="col-md-4 col-center-block">
+	       	 		<button  style="width:100px;text-align:center" class="btn btn-primary " type="reset" onclick="reset()">重置</button>
+	       	 		&nbsp;	&nbsp;	&nbsp;<button style="width:100px;text-align:center" class="btn btn-primary " type="submit" onclick="login()">登录</button>
 	       	 	</div>
 	 </div>
 	 

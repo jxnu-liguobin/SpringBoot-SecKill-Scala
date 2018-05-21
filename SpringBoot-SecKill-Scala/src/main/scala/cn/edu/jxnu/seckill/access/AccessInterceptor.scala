@@ -23,7 +23,7 @@ import cn.edu.jxnu.seckill.service.SeckillUserService
 /**
  * 访问拦截器去
  *
- * Java
+ * PS：由于if等导致的副作用可能会使没有加return的语句继续向下指向而抛出空指针
  *
  * @author 梦境迷离.
  * @time 2018年5月20日
@@ -41,7 +41,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
                 val hm = handler.asInstanceOf[HandlerMethod]
                 val accessLimit = hm.getMethodAnnotation(classOf[AccessLimit])
                 if (accessLimit == null)
-                    true
+                    return true
                 val seconds = accessLimit.seconds()
                 val maxCount = accessLimit.maxCount()
                 val needLogin = accessLimit.needLogin()
@@ -49,7 +49,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
                 if (needLogin) {
                     if (user == null) {
                         render(response, CodeMsg.SESSION_ERROR)
-                        false
+                        return false
                     }
                     key += "_" + user.getId()
                 } else {
@@ -63,7 +63,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
                     redisService.incr(ak, key)
                 } else {
                     render(response, CodeMsg.ACCESS_LIMIT_REACHED)
-                    false
+                    return false
                 }
             }
             true
@@ -72,7 +72,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
     private def render(response: HttpServletResponse, cm: CodeMsg) {
         response.setContentType("application/jsoncharset=UTF-8")
         val out = response.getOutputStream()
-        val str = JSON.toJSONString(Result.error(cm), true)
+        val str = JSON.toJSONString(Result.error(cm), false)
         out.write(str.getBytes("UTF-8"))
         out.flush()
         out.close()
@@ -83,7 +83,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
         val paramToken = request.getParameter(SeckillUserService.COOKI_NAME_TOKEN)
         val cookieToken = getCookieValue(request, SeckillUserService.COOKI_NAME_TOKEN)
         if (StringUtils.isEmpty(cookieToken) && StringUtils.isEmpty(paramToken))
-            null
+            return null
         if (StringUtils.isEmpty(paramToken))
             token = cookieToken
         else
@@ -94,12 +94,12 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
     private def getCookieValue(request: HttpServletRequest, cookiName: String): String = {
         val cookies = request.getCookies()
         if (cookies == null || cookies.length <= 0)
-            null
+            return null
         for (cookie <- cookies) {
             if (cookie.getName().equals(cookiName))
-                cookie.getValue()
+                return cookie.getValue()
         }
-        null
+        return null
     }
 
 }

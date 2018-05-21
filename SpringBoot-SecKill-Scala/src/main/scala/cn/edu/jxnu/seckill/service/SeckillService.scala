@@ -19,6 +19,7 @@ import java.awt.image.BufferedImage
 import java.awt.Color
 import java.awt.Font
 import javax.script.ScriptEngineManager
+import org.slf4j.LoggerFactory
 
 /**
  * 秒杀服务层
@@ -32,6 +33,8 @@ import javax.script.ScriptEngineManager
 @Service
 class SeckillService @Autowired() (goodsService: GoodsService,
     orderService: OrderService, redisService: RedisService) {
+
+    private final val log = LoggerFactory.getLogger(classOf[SeckillService])
 
     @Transactional
     def seckill(user: SeckillUser, goods: GoodsVo): OrderInfo = {
@@ -50,6 +53,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         goodsService.resetStock(goodsList)
         orderService.deleteOrders()
     }
+
     def getSeckillResult(userId: Long, goodsId: Long): Long = {
         val order = orderService.getSeckillOrderByUserIdGoodsId(userId, goodsId)
         if (order != null) { // 秒杀成功
@@ -74,7 +78,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
 
     def createSeckillPath(user: SeckillUser, goodsId: Long): String = {
         if (user == null || goodsId <= 0) {
-            null
+            return null
         }
         val str = MD5Util.md5(UUIDUtil.uuid() + "123456")
         redisService.set(SeckillKey.getSeckillPath, "" + user.getId() + "_" + goodsId, str)
@@ -83,7 +87,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
 
     def checkPath(user: SeckillUser, goodsId: Long, path: String): Boolean = {
         if (user == null || path == null) {
-            false
+            return false
         }
         val pathOld = redisService.get(SeckillKey.getSeckillPath, "" + user.getId() + "_" + goodsId, classOf[String])
         path.equals(pathOld)
@@ -91,7 +95,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
 
     def createVerifyCode(user: SeckillUser, goodsId: Long): BufferedImage = {
         if (user == null || goodsId <= 0) {
-            null
+            return null
         }
         val width = 80
         val height = 32
@@ -120,6 +124,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         g.dispose()
         // 把验证码存到redis中
         val rnd = calc(verifyCode)
+        log.info("验证码:"+rnd)
         redisService.set(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId, rnd)
         // 输出图片
         image
@@ -151,12 +156,12 @@ class SeckillService @Autowired() (goodsService: GoodsService,
 
     def checkVerifyCode(user: SeckillUser, goodsId: Long, verifyCode: Int): Boolean = {
         if (user == null || goodsId <= 0) {
-            false
+            return false
         }
         val codeOld = redisService.get(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId,
                                        classOf[Integer])
         if (codeOld == null || codeOld - verifyCode != 0) {
-            false
+            return false
         }
         redisService.delete(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId)
         true

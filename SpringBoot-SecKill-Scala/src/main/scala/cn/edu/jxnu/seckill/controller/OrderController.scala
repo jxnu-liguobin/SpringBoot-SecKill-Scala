@@ -28,10 +28,10 @@ class OrderController @Autowired() (orderService: OrderService,
     def info(model: Model, user: SeckillUser, @RequestParam("orderId") orderId: Long): Result[OrderDetailVo] = {
 
         if (user == null)
-            Result.error(CodeMsg.SESSION_ERROR)
+            return Result.error(CodeMsg.SESSION_ERROR)
         val order = orderService.getOrderById(orderId)
         if (order == null)
-            Result.error(CodeMsg.ORDER_NOT_EXIST)
+            return Result.error(CodeMsg.ORDER_NOT_EXIST)
         val goodsId = order.getGoodsId()
         val goods = goodsService.getGoodsVoByGoodsId(goodsId)
         val vo = new OrderDetailVo()

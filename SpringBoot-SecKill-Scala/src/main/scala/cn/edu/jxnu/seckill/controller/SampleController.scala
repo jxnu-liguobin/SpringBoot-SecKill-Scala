@@ -14,10 +14,13 @@ import cn.edu.jxnu.seckill.vo.GoodsVo
 import cn.edu.jxnu.seckill.result.Result
 import cn.edu.jxnu.seckill.result.CodeMsg
 import cn.edu.jxnu.seckill.service.GoodsService
+import cn.edu.jxnu.seckill.domain.User
+import cn.edu.jxnu.seckill.redis.RedisService
+import cn.edu.jxnu.seckill.redis.key.UserKey
 
 @RestController
 @RequestMapping(Array("/sample"))
-class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService) {
+class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService, val redisService: RedisService) {
 
     /**
      * Hello World
@@ -71,6 +74,27 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
             println("商品视图对象toString方法=>" + g)
         }
         goodsService.listGoodsVo()
+    }
+
+    /**
+     * 测试Redis
+     */
+    @RequestMapping(Array("/redis/get"))
+    def redisGet(): Result[User] = {
+        val user = redisService.get(UserKey.getById, "" + 1, classOf[User])
+        return Result.success(user)
+    }
+
+    /**
+     * 测试Redis
+     */
+    @RequestMapping(Array("/redis/set"))
+    def redisSet(): Result[Boolean] = {
+        val user = new User()
+        user.setId(1)
+        user.setName("1111")
+        redisService.set(UserKey.getById, "" + 1, user) // UserKey:id1
+        return Result.success(true)
     }
 
 }

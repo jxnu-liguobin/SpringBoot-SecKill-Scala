@@ -23,6 +23,7 @@ import javax.validation.Valid
 class LoginController @Autowired() (userService: SeckillUserService) {
 
     private final val log = LoggerFactory.getLogger(classOf[LoginController])
+    
     @RequestMapping(Array("/to_login"))
     def toLogin() = "login"
 
