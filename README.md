@@ -20,7 +20,7 @@
             druid
             
             
-### 部分代码预览
+### 部分代码预览:
             
 mybatis接口：        
 ![](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/blob/master/SpringBoot-SecKill-Scala/src/main/resources/images/mybatis%E6%8E%A5%E5%8F%A3.png)
@@ -34,7 +34,7 @@ mybatis接口：        
         2、熟悉Scala基本语法
         3、熟悉慕课网秒杀系统
 
-### 代码需要注意的地方
+### 代码需要注意的地方:
 
         1、刚刚写完，存在bug，没有进行压测，性能没比较，而且可能还有BUG，欢迎发邮件给我指出bug。
         2、基本没有使用复杂特性，会Java的学起来很容易。
@@ -59,7 +59,7 @@ mybatis接口：        
         
         
  
-### 如何使用
+### 如何使用:
 
         1、使用就很暴力了，要想自动初始化数据库，就给mysql新建一个库，叫seckill
         2、把resources/sql下的schema.xml与data.xml放到resources下，启动主类即可
