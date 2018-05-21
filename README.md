@@ -56,3 +56,12 @@ mybatis接口：        
         3、非Scala爱好者忽略本项目，本人不提供也没有时间答疑，也就是说你要自己搞，除非是项目BUG
         4、该Scala版本的版权归本人所有。
         5、遵循MIT开源
+        
+        
+ 
+### 如何使用
+
+        1、使用就很暴力了，要想自动初始化数据库，就给mysql新建一个库，叫seckill
+        2、把resources/sql下的schema.xml与data.xml放到resources下，启动主类即可
+        3、想手动，就把那两个文件分别去mysql执行一遍吧
+        4、IDEA貌似可以直接启动Scala，但是Eclipse必须以Scala Appliction启动，或者以SpringBoot方式启动。注意环境是否全部装好了
