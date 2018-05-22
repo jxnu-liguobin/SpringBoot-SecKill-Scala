@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 /**
  * 用户控制器
  *
+ * 压测专用
  * @author 梦境迷离.
  * @time 2018年5月21日
  * @version v1.0

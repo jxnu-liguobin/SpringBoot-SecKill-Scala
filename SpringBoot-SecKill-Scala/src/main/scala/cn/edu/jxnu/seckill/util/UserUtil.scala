@@ -49,7 +49,7 @@ object UserUtil {
             users.add(user)
         }
         println("create user")
-
+        //先生成token
         val urlString = "http://127.0.0.1:8080/login/do_login"
         val file = new File("D:/tokens.txt")
         if (file.exists()) {

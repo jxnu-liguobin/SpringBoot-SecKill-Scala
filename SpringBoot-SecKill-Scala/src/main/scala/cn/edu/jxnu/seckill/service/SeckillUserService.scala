@@ -57,6 +57,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         }
         user = seckillUserDao.getById(id)
         if (user != null) {
+            //更新缓存
             redisService.set(SeckillUserKey.getById, "" + id, user)
         }
         user
@@ -67,7 +68,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         val user = getById(id)
         if (user == null)
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST)
-        // 更新数据库
+        // 更新数据库，更新什么字段就传入什么字段，减少传输的数据
         val toBeUpdate = new SeckillUser()
         toBeUpdate.setId(id)
         toBeUpdate.setPassword(MD5Util.formPassToDBPass(formPass, user.getSalt()))
@@ -75,6 +76,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         // 处理缓存
         redisService.delete(SeckillUserKey.getById, "" + id)
         user.setPassword(toBeUpdate.getPassword())
+        //更新，如果删除token[uuid唯一]就无法登陆了
         redisService.set(SeckillUserKey.token, token, user)
         true
     }

@@ -35,7 +35,6 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
             val str = jedis.get(realKey)
-             log.info("redis:get->" + str)
             RedisService.stringToBean(str, clazz)
         } finally {
             RedisService.returnToPool(jedis)
@@ -55,7 +54,6 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
                 false
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
-            log.info("redis:set->" + realKey)
             val seconds = prefix.expireSeconds()
             if (seconds <= 0)
                 jedis.set(realKey, str)

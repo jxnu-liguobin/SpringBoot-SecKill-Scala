@@ -41,11 +41,11 @@ class OrderInfo {
     @BeanProperty
     var goodsPrice: Double = _
 
-    //订单通道
+    //订单渠道
     @BeanProperty
     var orderChannel: Integer = _
 
-    //订单状态
+    //订单状态 未支付，已支付等等
     @BeanProperty
     var status: Integer = _
 

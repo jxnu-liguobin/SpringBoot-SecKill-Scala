@@ -20,5 +20,6 @@ object SeckillUserKey {
 
     final val token: SeckillUserKey = new SeckillUserKey(TOKEN_EXPIRE, "tk")
 
+    // 对象不发生变化，则永久有效
     final val getById: SeckillUserKey = new SeckillUserKey(0, "id")
 }

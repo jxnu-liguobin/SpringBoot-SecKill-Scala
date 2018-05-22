@@ -32,11 +32,11 @@ class Goods {
     @BeanProperty
     var goodsImg: String = _
 
-    //商品描述
+    //商品详情描述
     @BeanProperty
     var goodsDetail: String = _
 
-    //商品价格
+    //商品单价
     @BeanProperty
     var goodsPrice: String = _
 

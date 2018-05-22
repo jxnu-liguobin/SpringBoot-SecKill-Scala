@@ -43,10 +43,10 @@ class GoodsController @Autowired() (goodsService: GoodsService,
      */
     @RequestMapping(Array("/to_list"))
     def list(request: HttpServletRequest, response: HttpServletResponse, model: Model, user: SeckillUser): String = {
-        
+
         //TODO 空指针,已修复
-       // log.info("商品列表秒杀用户:"+user.toString())
-        // 取缓存
+        // log.info("商品列表秒杀用户:"+user.toString())
+        // 取缓存，缓存默认1分钟
         var html = redisService.get(GoodsKey.getGoodsList, "", classOf[String])
         if (!StringUtils.isEmpty(html))
             return html
@@ -57,7 +57,7 @@ class GoodsController @Autowired() (goodsService: GoodsService,
         // return "goods_list"
         val ctx = new SpringWebContext(request, response, request.getServletContext(), request.getLocale(),
                                        model.asMap(), applicationContext)
-        // 手动渲染
+        // 手动渲染，并存进缓存
         html = thymeleafViewResolver.getTemplateEngine().process("goods_list", ctx)
         if (!StringUtils.isEmpty(html))
             redisService.set(GoodsKey.getGoodsList, "", html)
