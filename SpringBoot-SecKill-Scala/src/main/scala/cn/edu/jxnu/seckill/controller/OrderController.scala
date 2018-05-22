@@ -11,6 +11,7 @@ import org.springframework.ui.Model
 import cn.edu.jxnu.seckill.result.CodeMsg
 import cn.edu.jxnu.seckill.vo.OrderDetailVo
 import org.springframework.web.bind.annotation.RequestParam
+import org.slf4j.LoggerFactory
 
 /**
  * 订单控制器
@@ -23,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestParam
 @RequestMapping(Array("/order"))
 class OrderController @Autowired() (orderService: OrderService,
     goodsService: GoodsService) {
+
+    private final val log = LoggerFactory.getLogger(classOf[OrderController])
 
     @RequestMapping(Array("/detail"))
     def info(model: Model, user: SeckillUser, @RequestParam("orderId") orderId: Long): Result[OrderDetailVo] = {
@@ -37,6 +40,7 @@ class OrderController @Autowired() (orderService: OrderService,
         val vo = new OrderDetailVo()
         vo.setOrder(order)
         vo.setGoods(goods)
+        log.info("订单ID：" + goodsId)
         Result.success(vo)
     }
 

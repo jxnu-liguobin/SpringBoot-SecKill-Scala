@@ -11,6 +11,13 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import cn.edu.jxnu.seckill.access.AccessInterceptor
 
+/**
+ * 拦截器注册
+ *
+ * @author 梦境迷离.
+ * @time 2018年5月22日
+ * @version v1.0
+ */
 @Configuration
 class WebConfig @Autowired() (userArgumentResolver: UserArgumentResolver, accessInterceptor: AccessInterceptor)
     extends WebMvcConfigurerAdapter {

@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.PathVariable
 import cn.edu.jxnu.seckill.rabbitmq.SeckillMessage
 import org.springframework.web.bind.annotation.RestController
+import org.slf4j.LoggerFactory
 
 /**
  * 秒杀控制器
@@ -44,6 +45,7 @@ import org.springframework.web.bind.annotation.RestController
 class SeckillController @Autowired() (goodsService: GoodsService, seckillService: SeckillService, orderService: OrderService, redisService: RedisService,
     sender: RabbitMQSender) extends InitializingBean {
 
+    private final val log = LoggerFactory.getLogger(classOf[SeckillController])
     private val localOverMap = new JavaHashMap[Long, Boolean]()
 
     @AccessLimit(seconds   = 5, maxCount = 5, needLogin = true)
@@ -58,6 +60,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         if (!check)
             return Result.error(CodeMsg.REQUEST_ILLEGAL)
         val path = seckillService.createSeckillPath(user, goodsId)
+        log.debug("获取秒杀路径：" + path)
         Result.success(path)
     }
 

@@ -8,6 +8,7 @@ import cn.edu.jxnu.seckill.service.SeckillUserService
 import org.springframework.ui.Model
 import cn.edu.jxnu.seckill.domain.SeckillUser
 import cn.edu.jxnu.seckill.result.Result
+import org.slf4j.LoggerFactory
 
 /**
  * 用户控制器
@@ -21,12 +22,15 @@ import cn.edu.jxnu.seckill.result.Result
 class UserController @Autowired() (userService: SeckillUserService,
     redisService: RedisService) {
 
+    private final val log = LoggerFactory.getLogger(classOf[UserController])
+
     /**
      * QPS:366.6 1000 * 10
      */
     @RequestMapping(Array("/info"))
     def info(model: Model, user: SeckillUser): Result[SeckillUser] = {
-        
+
+        log.info("用户user：" + user.toString())
         Result.success(user)
     }
 

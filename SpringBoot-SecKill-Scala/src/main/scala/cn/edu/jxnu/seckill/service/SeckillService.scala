@@ -34,8 +34,6 @@ import org.slf4j.LoggerFactory
 class SeckillService @Autowired() (goodsService: GoodsService,
     orderService: OrderService, redisService: RedisService) {
 
-    private final val log = LoggerFactory.getLogger(classOf[SeckillService])
-
     @Transactional
     def seckill(user: SeckillUser, goods: GoodsVo): OrderInfo = {
         // 减库存 下订单 写入秒杀订单
@@ -124,7 +122,6 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         g.dispose()
         // 把验证码存到redis中
         val rnd = calc(verifyCode)
-        log.info("验证码:"+rnd)
         redisService.set(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId, rnd)
         // 输出图片
         image

@@ -28,8 +28,6 @@ import org.slf4j.LoggerFactory
 class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     redisService: RedisService) {
 
-    private final val log = LoggerFactory.getLogger(classOf[SeckillUserService])
-
     def login(response: HttpServletResponse, @Valid loginVo: LoginVo): String = {
         if (loginVo == null)
             throw new GlobalException(CodeMsg.SERVER_ERROR)
@@ -37,7 +35,6 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         val formPass = loginVo.getPassword()
         // 判断手机号是否存在
         val user = getById(mobile.toLong)
-        log.info("当前手机号:" + mobile.toLong)
         if (user == null)
             throw new GlobalException(CodeMsg.MOBILE_NOT_EXIST)
         // 验证密码
@@ -48,7 +45,6 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
             throw new GlobalException(CodeMsg.PASSWORD_ERROR)
         // 生成cookie
         val token = UUIDUtil.uuid()
-        log.info("当前添加至cookie的user的token:" + token)
         addCookie(response, token, user)
         token
     }
@@ -57,12 +53,10 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         // 取缓存
         var user = redisService.get(SeckillUserKey.getById, "" + id, classOf[SeckillUser])
         if (user != null) {
-            log.info("当前从redis取出的user:" + user.toString())
             return user
         }
         user = seckillUserDao.getById(id)
         if (user != null) {
-            log.info("当前放进redis的user:" + user.toString())
             redisService.set(SeckillUserKey.getById, "" + id, user)
         }
         user
@@ -89,9 +83,8 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
 
         //TODO 这里存在用户
         redisService.set(SeckillUserKey.token, token, user)
-        log.info("登陆用户token:" + token.toString() + "  redis:" + user.toString())
         val cookie = new Cookie(SeckillUserService.COOKI_NAME_TOKEN, token)
-        log.info("登陆用户token:" + token.toString())
+        //TODO 成功设置到浏览器
         cookie.setMaxAge(SeckillUserKey.token.expireSeconds())
         cookie.setPath("/")
         response.addCookie(cookie)
