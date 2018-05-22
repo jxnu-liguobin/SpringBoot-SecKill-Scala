@@ -48,6 +48,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     private final val log = LoggerFactory.getLogger(classOf[SeckillController])
     private val localOverMap = new JavaHashMap[Long, Boolean]()
 
+    /**
+     * 获取秒杀路径，返回给前端
+     */
     @AccessLimit(seconds   = 5, maxCount = 5, needLogin = true)
     @GetMapping(Array("/path"))
     def getMiaoshaPath(request: HttpServletRequest, user: SeckillUser,
@@ -64,6 +67,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         Result.success(path)
     }
 
+    /**
+     * 真正秒杀的接口，需要一个@PathVariable参数
+     */
     @PostMapping(Array("/{path}/do_seckill"))
     def seckill(model: Model, user: SeckillUser, @RequestParam("goodsId") goodsId: Long,
         @PathVariable("path") path: String): Result[Integer] = {
@@ -79,7 +85,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         val over = localOverMap.get(goodsId)
         if (over)
             return Result.error(CodeMsg.SECKILL_OVER)
-        // 预减库存
+        // 尝试性的减小库存【预减库存】
         val stock = redisService.decr(GoodsKey.getSeckillGoodsStock, "" + goodsId) // 10
         if (stock < 0) {
             localOverMap.put(goodsId, true)
@@ -110,7 +116,6 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     /**
      * orderId：成功 -1：秒杀失败 0： 排队中
      */
-
     @GetMapping(Array("/result"))
     def miaoshaResult(model: Model, user: SeckillUser, @RequestParam("goodsId") goodsId: Long): Result[Long] = {
 
@@ -121,6 +126,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         Result.success(result)
     }
 
+    /**
+     * 系统初始化加载商品库存到redis中
+     */
     override def afterPropertiesSet() {
 
         val goodsList = goodsService.listGoodsVo()
@@ -132,6 +140,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         }
     }
 
+    /**
+     * 数据还原【测试用】
+     */
     @GetMapping(Array("/reset"))
     def reset(model: Model): Result[Boolean] = {
 

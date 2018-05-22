@@ -24,6 +24,7 @@ import scala.language.implicitConversions
 class OrderService @Autowired() (orderDao: OrderDao,
     redisService: RedisService) {
 
+    //是否已经秒杀过【(user.id，goods.id)是数据库的唯一索引，且秒杀时，这个将存进redis】
     def getSeckillOrderByUserIdGoodsId(userId: Long, goodsId: Long): SeckillOrder = {
         redisService.get(OrderKey.getSeckillOrderByUidGid, "" + userId + "_" + goodsId, classOf[SeckillOrder])
     }
@@ -46,6 +47,7 @@ class OrderService @Autowired() (orderDao: OrderDao,
         seckillOrder.setOrderId(orderInfo.getId())
         seckillOrder.setUserId(user.getId())
         orderDao.insertSeckillOrder(seckillOrder)
+        //生成订单的时候写完mysql,也要写进redis中,下次点击将直接去缓存，响应快
         redisService.set(OrderKey.getSeckillOrderByUidGid, "" + user.getId() + "_" + goods.getId(), seckillOrder)
         orderInfo
     }

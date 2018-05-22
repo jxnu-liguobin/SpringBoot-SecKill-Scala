@@ -17,10 +17,12 @@ import cn.edu.jxnu.seckill.service.GoodsService
 import cn.edu.jxnu.seckill.domain.User
 import cn.edu.jxnu.seckill.redis.RedisService
 import cn.edu.jxnu.seckill.redis.key.UserKey
+import cn.edu.jxnu.seckill.rabbitmq.RabbitMQSender
 
 @RestController
 @RequestMapping(Array("/sample"))
-class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService, val redisService: RedisService) {
+class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService, val redisService: RedisService,
+    val rabbitMQSender: RabbitMQSender) {
 
     /**
      * Hello World
@@ -82,7 +84,7 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     @RequestMapping(Array("/redis/get"))
     def redisGet(): Result[User] = {
         val user = redisService.get(UserKey.getById, "" + 1, classOf[User])
-        return Result.success(user)
+        Result.success(user)
     }
 
     /**
@@ -94,7 +96,13 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
         user.setId(1)
         user.setName("1111")
         redisService.set(UserKey.getById, "" + 1, user) // UserKey:id1
-        return Result.success(true)
+        Result.success(true)
+    }
+
+    @RequestMapping(Array("/mq"))
+    def mq(): Result[String] = {
+        rabbitMQSender.send("你好呀！")
+        Result.success("Hello")
     }
 
 }

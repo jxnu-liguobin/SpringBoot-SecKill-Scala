@@ -42,11 +42,15 @@ class SeckillService @Autowired() (goodsService: GoodsService,
             // order_info seckill_order
             orderService.createOrder(user, goods)
         } else {
+            //卖完了，记录下
             setGoodsOver(goods.getId())
-            null
+            return null
         }
     }
 
+    /**
+     * 还原环境【测试用】
+     */
     def reset(goodsList: JavaList[GoodsVo]) {
         goodsService.resetStock(goodsList)
         orderService.deleteOrders()
@@ -55,13 +59,14 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     def getSeckillResult(userId: Long, goodsId: Long): Long = {
         val order = orderService.getSeckillOrderByUserIdGoodsId(userId, goodsId)
         if (order != null) { // 秒杀成功
-            order.getOrderId()
+            //返回秒杀商品给前台用来查看订单
+            return order.getOrderId()
         } else {
             val isOver = getGoodsOver(goodsId)
-            if (isOver) {
-                -1
+            if (isOver) { // 因为卖完了
+                return -1
             } else {
-                0
+                return 0
             }
         }
     }
@@ -74,6 +79,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         redisService.exists(SeckillKey.isGoodsOver, "" + goodsId)
     }
 
+    /**
+     * 生成随机uuid，作为获取地址携带的参数
+     */
     def createSeckillPath(user: SeckillUser, goodsId: Long): String = {
         if (user == null || goodsId <= 0) {
             return null
@@ -83,6 +91,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         str
     }
 
+    /**
+     * 判断前端传来的uuid是否与redis中的相同
+     */
     def checkPath(user: SeckillUser, goodsId: Long, path: String): Boolean = {
         if (user == null || path == null) {
             return false

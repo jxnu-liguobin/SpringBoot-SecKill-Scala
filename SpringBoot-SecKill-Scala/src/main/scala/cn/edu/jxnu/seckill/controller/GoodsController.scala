@@ -72,14 +72,15 @@ class GoodsController @Autowired() (goodsService: GoodsService,
         //TODO 这里空指针，已修复
         //log.info("查看商品详情携带的用户:"+user.toString())
         val goods = goodsService.getGoodsVoByGoodsId(goodsId)
-        val startAt = goods.getStartDate().getTime()
-        val endAt = goods.getEndDate().getTime()
+        //定义2个Long类型，操作之后再把它强转为Int
+        val startAt: Long = goods.getStartDate().getTime()
+        val endAt: Long = goods.getEndDate().getTime()
         val now = System.currentTimeMillis()
         var seckillStatus = 0
-        var remainSeconds = 0
+        var remainSeconds: Long = 0
         if (now < startAt) { // 秒杀还没开始，倒计时
             seckillStatus = 0
-            remainSeconds = ((startAt - now) / 1000).asInstanceOf[Integer]
+            remainSeconds = ((startAt - now) / 1000)
         } else if (now > endAt) { // 秒杀已经结束
             seckillStatus = 2
             remainSeconds = -1
@@ -90,7 +91,7 @@ class GoodsController @Autowired() (goodsService: GoodsService,
         val vo = new GoodsDetailVo()
         vo.setGoods(goods)
         vo.setUser(user)
-        vo.setRemainSeconds(remainSeconds)
+        vo.setRemainSeconds(remainSeconds.toInt)
         vo.setSeckillStatus(seckillStatus)
         Result.success(vo)
     }

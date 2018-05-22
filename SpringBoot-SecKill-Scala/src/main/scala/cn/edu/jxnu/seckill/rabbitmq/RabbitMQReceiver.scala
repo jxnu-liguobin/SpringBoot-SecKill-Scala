@@ -25,23 +25,27 @@ class RabbitMQReceiver @Autowired() (redisService: RedisService,
     // 这里使用包对象和伴生对象均报非常量的错，因为常量不能有类型
     @RabbitListener(queues = Array(RabbitMQConst.SECKILL_QUEUE))
     def receiveSeckill(message: String) {
+
         log.info("receive message:" + message)
         val mm = RedisService.stringToBean(message, classOf[SeckillMessage])
         val user = mm.getUser()
         val goodsId = mm.getGoodsId()
-
+        // 查数据库，得到秒杀商品视图对象
         val goods = goodsService.getGoodsVoByGoodsId(goodsId)
+        //此等待期间库存可能改变，所以需要再次判断库存
         val stock = goods.getStockCount()
+        //判断库存是否合法
         if (stock <= 0) {
             return
         }
-        // 判断是否已经秒杀到了
+        // 从redis中获取秒杀订单，再次判断是否已经秒杀到了
         val order = orderService.getSeckillOrderByUserIdGoodsId(user.getId(), goodsId)
         if (order != null) {
             return
         }
         // 减库存 下订单 写入秒杀订单
         seckillService.seckill(user, goods)
+        //消费一个
     }
 
     @RabbitListener(queues = Array(RabbitMQConst.QUEUE))
