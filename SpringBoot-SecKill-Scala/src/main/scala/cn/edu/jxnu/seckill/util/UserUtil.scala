@@ -21,11 +21,11 @@ import com.alibaba.fastjson.JSON
  * @time 2018年5月19日
  * @version v1.0
  */
-class UserUtil {
+//class UserUtil {
+//
+//}
 
-}
-
-object UserUtil {
+package object UserUtil {
 
     /**
      * 测试

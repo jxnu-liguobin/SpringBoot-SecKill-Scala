@@ -7,7 +7,7 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.Target;
 
 /**
- * 访问注解
+ * 限流访问注解
  * 
  * Java
  *

@@ -6,7 +6,7 @@ import java.util.regex.Pattern;
 import org.apache.commons.lang3.StringUtils;
 
 /**
- * Created by lh on 2018/4/19.
+ * Java实现
  */
 public class ValidatorUtilJava {
 

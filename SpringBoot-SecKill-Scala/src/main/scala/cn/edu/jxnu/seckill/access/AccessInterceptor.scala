@@ -21,7 +21,7 @@ import cn.edu.jxnu.seckill.service.SeckillUserService
 import cn.edu.jxnu.seckill.service.SeckillUserService
 
 /**
- * 访问拦截器去
+ * 访问拦截器。处理限流注解
  *
  * PS：由于if等导致的副作用可能会使没有加return的语句继续向下指向而抛出空指针
  *
@@ -71,6 +71,9 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
             true
         }
 
+    /**
+     * 给服务端提示
+     */
     private def render(response: HttpServletResponse, cm: CodeMsg) {
         response.setContentType("application/jsoncharset=UTF-8")
         val out = response.getOutputStream()
@@ -80,6 +83,9 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
         out.close()
     }
 
+    /**
+     * 取出用户
+     */
     private def getUser(request: HttpServletRequest, response: HttpServletResponse): SeckillUser = {
         var token: Any = null
         val paramToken = request.getParameter(SeckillUserService.COOKI_NAME_TOKEN)
@@ -93,6 +99,9 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
         userService.getByToken(response, token.asInstanceOf[String])
     }
 
+    /**
+     * 从cookie取
+     */
     private def getCookieValue(request: HttpServletRequest, cookiName: String): String = {
         val cookies = request.getCookies()
         if (cookies == null || cookies.length <= 0)

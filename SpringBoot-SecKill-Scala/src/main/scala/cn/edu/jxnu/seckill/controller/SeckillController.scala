@@ -50,6 +50,8 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
 
     /**
      * 获取秒杀路径，返回给前端
+     *
+     * defaultValue=0 测试限流用，实际不能有默认值
      */
     @AccessLimit(seconds   = 5, maxCount = 5, needLogin = true)
     @GetMapping(Array("/path"))
@@ -158,6 +160,9 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         Result.success(true)
     }
 
+    /**
+     * 生成验证码接口
+     */
     @GetMapping(Array("/verifyCode"))
     def getMiaoshaVerifyCod(response: HttpServletResponse, user: SeckillUser,
         @RequestParam("goodsId") goodsId: Long): Result[String] = {
@@ -170,7 +175,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
             ImageIO.write(image, "JPEG", out)
             out.flush()
             out.close()
-            null
+            return null
         } catch {
             case e: Exception =>
                 e.printStackTrace()

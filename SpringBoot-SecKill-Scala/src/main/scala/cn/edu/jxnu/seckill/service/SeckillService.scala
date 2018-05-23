@@ -102,6 +102,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         path.equals(pathOld)
     }
 
+    /**
+     * 验证码
+     */
     def createVerifyCode(user: SeckillUser, goodsId: Long): BufferedImage = {
         if (user == null || goodsId <= 0) {
             return null
@@ -131,13 +134,16 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         g.setFont(new Font("Candara", Font.BOLD, 24))
         g.drawString(verifyCode, 8, 24)
         g.dispose()
-        // 把验证码存到redis中
+        // 把验证码值存到redis中
         val rnd = calc(verifyCode)
         redisService.set(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId, rnd)
         // 输出图片
         image
     }
 
+    /**
+     * 计算验证码
+     */
     private def calc(exp: String): Int = {
         try {
             val manager = new ScriptEngineManager()
@@ -152,6 +158,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
 
     private val ops = Array('+', '-', '*')
 
+    /**
+     * 生成验证码
+     */
     private def generateVerifyCode(rdm: Random): String = {
         val num1 = rdm.nextInt(10)
         val num2 = rdm.nextInt(10)
@@ -162,6 +171,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         exp
     }
 
+    /**
+     * 检查验证码
+     */
     def checkVerifyCode(user: SeckillUser, goodsId: Long, verifyCode: Int): Boolean = {
         if (user == null || goodsId <= 0) {
             return false

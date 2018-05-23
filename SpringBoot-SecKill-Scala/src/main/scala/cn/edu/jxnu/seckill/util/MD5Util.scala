@@ -9,10 +9,10 @@ import org.apache.commons.codec.digest.DigestUtils
  * @time 2018年5月19日
  * @version v1.0
  */
-class MD5Util {
-
-}
-object MD5Util {
+//class MD5Util {
+//
+//}
+package object MD5Util {
 
     /**
      * 测试
