@@ -5,7 +5,7 @@ import javax.validation.ConstraintValidatorContext;
 
 import org.apache.commons.lang3.StringUtils;
 
-import cn.edu.jxnu.seckill.util.ValidatorUtilJava;
+import cn.edu.jxnu.seckill.util.ValidatorUtilScala;
 
 /**
  * Java实现验证手机号
@@ -26,12 +26,12 @@ public class IsMobileValidator implements ConstraintValidator<IsMobile, String> 
 
 	public boolean isValid(String value, ConstraintValidatorContext context) {
 		if (required) {
-			return ValidatorUtilJava.isMobile(value);
+			return new ValidatorUtilScala().isMobile(value);
 		} else {
 			if (StringUtils.isEmpty(value)) {
 				return true;
 			} else {
-				return ValidatorUtilJava.isMobile(value);
+				return new ValidatorUtilScala().isMobile(value);
 			}
 		}
 	}
