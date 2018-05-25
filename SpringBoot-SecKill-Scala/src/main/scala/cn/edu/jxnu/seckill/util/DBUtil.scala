@@ -38,6 +38,6 @@ object DBUtil {
         val password = props.getProperty("spring.datasource.password")
         val driver = props.getProperty("spring.datasource.driver-class-name")
         Class.forName(driver)
-        return DriverManager.getConnection(url, username, password)
+        DriverManager.getConnection(url, username, password)
     }
 }

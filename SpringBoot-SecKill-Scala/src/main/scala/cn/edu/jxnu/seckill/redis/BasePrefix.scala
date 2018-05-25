@@ -17,12 +17,13 @@ abstract class BasePrefix extends KeyPrefix {
 
     private var prefix: String = _
 
+    /** 带参辅助构造. */
     def this(prefix: String) {
         this()
         this.prefix = prefix
 
     }
-
+    /** 带参辅助构造. */
     def this(expireSeconds: Integer, prefix: String) {
         this()
         this.expireSe = expireSeconds

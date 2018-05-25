@@ -51,7 +51,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             jedis = jedisPool.getResource()
             val str = RedisService.beanToString(value)
             if (str == null || str.length() <= 0)
-                false
+                return false
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
             val seconds = prefix.expireSeconds()
@@ -119,7 +119,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             jedis = jedisPool.getResource()
             // 生成真正的key
             val realKey = prefix.getPrefix() + key
-            return jedis.del(realKey) > 0
+            jedis.del(realKey) > 0
         } finally {
             RedisService.returnToPool(jedis)
         }
@@ -138,15 +138,13 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             jedis = jedisPool.getResource()
             //TODO参数
             jedis.del(keys.toArray().asInstanceOf[String])
-            return true
+            true
         } catch {
             case e: Exception =>
                 e.printStackTrace()
-                return false
+                false
         } finally {
-            if (jedis != null) {
-                jedis.close()
-            }
+            RedisService.returnToPool(jedis)
         }
     }
 
@@ -171,9 +169,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
             } while (!cursor.equals("0"))
             keys
         } finally {
-            if (jedis != null) {
-                jedis.close()
-            }
+            RedisService.returnToPool(jedis)
         }
     }
 }
@@ -182,7 +178,7 @@ object RedisService {
 
     def beanToString[T](value: T): String = {
         if (value == null)
-            null
+            return null
         val clazz = value.getClass()
         if (clazz == classOf[Int] || clazz == classOf[Integer]) {
             "" + value

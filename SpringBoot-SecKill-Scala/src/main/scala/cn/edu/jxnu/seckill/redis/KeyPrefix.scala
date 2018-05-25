@@ -9,7 +9,9 @@ package cn.edu.jxnu.seckill.redis
  */
 trait KeyPrefix {
 
+    /** 过期时间. */
     def expireSeconds(): Integer
 
+    /** redis前缀. */
     def getPrefix(): String
 }

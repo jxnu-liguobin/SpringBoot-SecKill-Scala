@@ -44,7 +44,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         } else {
             //卖完了，记录下
             setGoodsOver(goods.getId())
-            return null
+            null
         }
     }
 
@@ -64,9 +64,9 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         } else {
             val isOver = getGoodsOver(goodsId)
             if (isOver) { // 因为卖完了
-                return -1
+                -1
             } else {
-                return 0
+                0
             }
         }
     }

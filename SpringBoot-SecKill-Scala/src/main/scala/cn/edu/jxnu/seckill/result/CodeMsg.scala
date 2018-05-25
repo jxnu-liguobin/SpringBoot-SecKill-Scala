@@ -24,6 +24,9 @@ class CodeMsg() {
         return new CodeMsg(code, message)
     }
 
+    /**
+     * 私有函数，不能被外部类使用
+     */
     private def this(code: Integer, msg: String) {
         this()
         this.code = code

@@ -21,6 +21,9 @@ class Result[T]() {
     @BeanProperty
     var data: T = _
 
+    /**
+     * 均是不能被外部使用的
+     */
     //全参构造
     private def this(code: Integer, msg: String, data: T) {
         this()
@@ -58,4 +61,5 @@ object Result {
     def error[T](cm: CodeMsg): Result[T] = {
         return new Result[T](cm)
     }
+    //根据需要在这实现自己的重载方法
 }

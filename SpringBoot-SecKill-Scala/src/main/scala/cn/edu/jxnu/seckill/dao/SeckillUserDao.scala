@@ -22,7 +22,7 @@ trait SeckillUserDao {
     def getById(@Param("id") id: Long): SeckillUser
 
     /**
-     * 根据id和密码跟新秒杀用户
+     * 根据id和密码更新秒杀用户
      */
     @Update(Array("update seckill_user set password = #{password} where id = #{id}"))
     def update(toBeUpdate: SeckillUser)

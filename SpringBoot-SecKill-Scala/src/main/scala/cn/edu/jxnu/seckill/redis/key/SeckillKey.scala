@@ -14,8 +14,13 @@ class SeckillKey private (expireSe: Integer, prefix: String) extends BasePrefix(
 }
 
 object SeckillKey {
-    
+
+    //商品是否卖完了
     final val isGoodsOver = new SeckillKey(0, "go")
+
+    //商品秒杀路径
     final val getSeckillPath = new SeckillKey(60, "mp")
+
+    //商品详情的验证码
     final val getSeckillVerifyCode = new SeckillKey(300, "vc")
 }
