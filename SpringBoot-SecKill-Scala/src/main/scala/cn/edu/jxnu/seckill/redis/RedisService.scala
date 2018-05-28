@@ -142,7 +142,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
         }
         try {
             jedis = jedisPool.getResource()
-            //TODO参数，数组元素作为每个小单元传入参数,必须注意这里的参数传递
+            //TODO 参数，数组元素作为每个小单元传入参数,必须注意这里的参数传递
             jedis.del(keyss: _*)
             true
         } catch {
