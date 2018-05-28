@@ -81,10 +81,12 @@ function doLogin(){
 	$.ajax({
 		url: "/login/do_login",
 	    type: "POST",
-	    data:{
+	    contentType: "application/json; charset=utf-8",
+        dataType: "json",
+	    data:JSON.stringify({
 	    	mobile:$("#mobile").val(),
 	    	password: password
-	    },
+	    }),
 	    success:function(data){
 	    	layer.closeAll();
 	    	if(data.code == 0){

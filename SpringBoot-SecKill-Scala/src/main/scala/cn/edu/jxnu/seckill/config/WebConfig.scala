@@ -10,6 +10,7 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 import cn.edu.jxnu.seckill.access.AccessInterceptor
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 
 /**
  * 拦截器注册
@@ -28,6 +29,16 @@ class WebConfig @Autowired() (userArgumentResolver: UserArgumentResolver, access
 
     override def addInterceptors(registry: InterceptorRegistry) {
         registry.addInterceptor(accessInterceptor)
+    }
+
+    /**
+     * addResourceLocations是必须的，否则swagger被拦截
+     */
+    override def addResourceHandlers(registry: ResourceHandlerRegistry) {
+        registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
+        registry.addResourceHandler("swagger-ui.html")
+            .addResourceLocations("classpath:/META-INF/resources/")
+        super.addResourceHandlers(registry)
     }
 
 }

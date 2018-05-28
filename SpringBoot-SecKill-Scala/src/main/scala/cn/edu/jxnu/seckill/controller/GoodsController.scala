@@ -22,6 +22,15 @@ import org.springframework.web.bind.annotation.PathVariable
 import cn.edu.jxnu.seckill.result.Result
 import cn.edu.jxnu.seckill.vo.GoodsDetailVo
 import org.slf4j.LoggerFactory
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiParam
+import org.springframework.web.bind.annotation.RequestBody
+import io.swagger.annotations.ApiImplicitParam
+import org.springframework.web.bind.annotation.PostMapping
+import io.swagger.annotations.ApiImplicitParams
+import springfox.documentation.annotations.ApiIgnore
+import org.springframework.web.bind.annotation.GetMapping
 
 /**
  * 商品控制器
@@ -32,6 +41,7 @@ import org.slf4j.LoggerFactory
  */
 @RestController
 @RequestMapping(Array("/goods"))
+@Api(value = "商品controller", tags = { Array("商品接口") })
 class GoodsController @Autowired() (goodsService: GoodsService,
     redisService: RedisService, thymeleafViewResolver: ThymeleafViewResolver,
     applicationContext: ApplicationContext) {
@@ -41,8 +51,11 @@ class GoodsController @Autowired() (goodsService: GoodsService,
     /**
      * 商品列表 QPS:123.9 1000 * 10
      */
-    @RequestMapping(Array("/to_list"))
-    def list(request: HttpServletRequest, response: HttpServletResponse, model: Model, user: SeckillUser): String = {
+    @GetMapping(Array("/to_list"))
+    @ApiOperation(value = "获取商品信息列表", notes = { "获取商品信息列表" })
+    @ApiImplicitParam(name     = "seckillUser", value = "SeckillUser", required = true, dataType = "SeckillUser")
+    def list(request: HttpServletRequest, response: HttpServletResponse, model: Model,
+        user: SeckillUser): String = {
 
         //TODO 空指针,已修复
         // log.info("商品列表秒杀用户:"+user.toString())
@@ -65,6 +78,11 @@ class GoodsController @Autowired() (goodsService: GoodsService,
         html
     }
 
+    /**
+     * ApiImplicitParams
+     * Scala注解数组无法实现
+     */
+    @ApiIgnore
     @RequestMapping(value = Array("/detail/{goodsId}"))
     def detail(request: HttpServletRequest, response: HttpServletResponse, model: Model,
         user: SeckillUser, @PathVariable("goodsId") goodsId: Long): Result[GoodsDetailVo] = {

@@ -18,16 +18,21 @@ import cn.edu.jxnu.seckill.domain.User
 import cn.edu.jxnu.seckill.redis.RedisService
 import cn.edu.jxnu.seckill.redis.key.UserKey
 import cn.edu.jxnu.seckill.rabbitmq.RabbitMQSender
+import org.springframework.web.bind.annotation.GetMapping
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
 
 @RestController
 @RequestMapping(Array("/sample"))
+@Api(value = "测试controller", tags = { Array("测试接口") })
 class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService, val redisService: RedisService,
     val rabbitMQSender: RabbitMQSender) {
 
     /**
      * Hello World
      */
-    @RequestMapping(Array("/hello"))
+    @ApiOperation(value = "控制器测试", notes = { "控制器测试" })
+    @GetMapping(Array("/hello"))
     def home() = {
         "Hello World!"
     }
@@ -35,7 +40,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试Thymeleaf
      */
-    @RequestMapping(Array("/thymeleaf"))
+    @ApiOperation(value = "测试Thymeleaf", notes = { "测试Thymeleaf" })
+    @GetMapping(Array("/thymeleaf"))
     def thymeleaf(model: Model) = {
         model.addAttribute("name", "HiphopMan")
         "hello"
@@ -44,7 +50,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试mybatis和druid
      */
-    @RequestMapping(Array("/db/get"))
+    @ApiOperation(value = "测试mybatis和druid", notes = { "测试mybatis和druid" })
+    @GetMapping(Array("/db/get"))
     def dbGet(): JavaList[GoodsVo] = {
         goodsDao.listGoodsVo()
     }
@@ -52,7 +59,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试返回成功
      */
-    @RequestMapping(Array("/success"))
+    @ApiOperation(value = "测试返回成功", notes = { "测试返回成功" })
+    @GetMapping(Array("/success"))
     def success(): Result[String] = {
         Result.success("测试成功啦")
 
@@ -61,7 +69,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试返回失败
      */
-    @RequestMapping(Array("/error"))
+    @ApiOperation(value = "测试返回失败", notes = { "测试返回失败" })
+    @GetMapping(Array("/error"))
     def error(): Result[CodeMsg] = {
         Result.error(CodeMsg.SERVER_ERROR)
     }
@@ -70,7 +79,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
      * 测试服务层写法
      * 并测试toString方法
      */
-    @RequestMapping(Array("/service"))
+    @ApiOperation(value = "服务层写法", notes = { "服务层写法" })
+    @GetMapping(Array("/service"))
     def service() = {
         for (g <- goodsService.listGoodsVo()) {
             println("商品视图对象toString方法=>" + g)
@@ -81,7 +91,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试Redis
      */
-    @RequestMapping(Array("/redis/get"))
+    @ApiOperation(value = "测试Redis取", notes = { "测试Redis取" })
+    @GetMapping(Array("/redis/get"))
     def redisGet(): Result[User] = {
         val user = redisService.get(UserKey.getById, "" + 1, classOf[User])
         Result.success(user)
@@ -90,7 +101,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
     /**
      * 测试Redis
      */
-    @RequestMapping(Array("/redis/set"))
+    @ApiOperation(value = "测试Redis存", notes = { "测试Redis存" })
+    @GetMapping(Array("/redis/set"))
     def redisSet(): Result[Boolean] = {
         val user = new User()
         user.setId(1)
@@ -99,7 +111,8 @@ class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: G
         Result.success(true)
     }
 
-    @RequestMapping(Array("/mq"))
+    @ApiOperation(value = "测试RabbitMQ", notes = { "测试RabbitMQ" })
+    @GetMapping(Array("/mq"))
     def mq(): Result[String] = {
         rabbitMQSender.send("你好呀！")
         Result.success("Hello")
