@@ -13,9 +13,9 @@ import scala.beans.BeanProperty
 abstract class BasePrefix extends KeyPrefix {
 
     /** 默认0代表永不过期. */
-    private var expireSe: Integer = 0
+    var expireSe: Integer = 0
 
-    private var prefix: String = _
+    var prefix: String
 
     /** 带参辅助构造. */
     def this(prefix: String) {
@@ -32,8 +32,8 @@ abstract class BasePrefix extends KeyPrefix {
     }
 
     override def getPrefix() = {
-        val className = getClass().getSimpleName();
-        className + ":" + prefix;
+        val className = getClass().getSimpleName()
+        className + ":" + prefix
     }
 
     override def expireSeconds() = expireSe

@@ -9,7 +9,7 @@ import cn.edu.jxnu.seckill.redis.BasePrefix
  * @time 2018年5月20日
  * @version v1.0
  */
-class UserKey private (prefix: String) extends BasePrefix(prefix) {
+class UserKey private (var prefix: String) extends BasePrefix(prefix) {
 
 }
 

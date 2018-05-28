@@ -9,7 +9,7 @@ import cn.edu.jxnu.seckill.redis.BasePrefix
  * @time 2018年5月20日
  * @version v1.0
  */
-class SeckillKey private (expireSe: Integer, prefix: String) extends BasePrefix(expireSe, prefix) {
+class SeckillKey private (expireSe: Integer, var prefix: String) extends BasePrefix(expireSe, prefix) {
 
 }
 
