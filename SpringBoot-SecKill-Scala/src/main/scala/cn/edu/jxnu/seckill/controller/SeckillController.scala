@@ -32,6 +32,9 @@ import org.springframework.web.bind.annotation.PathVariable
 import cn.edu.jxnu.seckill.rabbitmq.SeckillMessage
 import org.springframework.web.bind.annotation.RestController
 import org.slf4j.LoggerFactory
+import io.swagger.annotations.Api
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiImplicitParam
 
 /**
  * 秒杀控制器
@@ -42,6 +45,7 @@ import org.slf4j.LoggerFactory
  */
 @RestController
 @RequestMapping(Array("/seckill"))
+@Api(value = "秒杀controller", tags = { Array("秒杀接口") })
 class SeckillController @Autowired() (goodsService: GoodsService, seckillService: SeckillService, orderService: OrderService, redisService: RedisService,
     sender: RabbitMQSender) extends InitializingBean {
 
@@ -145,6 +149,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     /**
      * 数据还原【测试用】
      */
+    @ApiOperation(value = "数据还原", notes = { "数据还原" })
     @GetMapping(Array("/reset"))
     def reset(model: Model): Result[Boolean] = {
 

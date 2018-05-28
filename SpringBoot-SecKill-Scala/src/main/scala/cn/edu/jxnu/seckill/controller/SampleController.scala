@@ -25,8 +25,8 @@ import io.swagger.annotations.ApiOperation
 @RestController
 @RequestMapping(Array("/sample"))
 @Api(value = "测试controller", tags = { Array("测试接口") })
-class SampleController @Autowired() (val goodsDao: GoodsDao, val goodsService: GoodsService, val redisService: RedisService,
-    val rabbitMQSender: RabbitMQSender) {
+class SampleController @Autowired() (goodsDao: GoodsDao, goodsService: GoodsService, redisService: RedisService,
+    rabbitMQSender: RabbitMQSender) {
 
     /**
      * Hello World

@@ -15,6 +15,7 @@ import java.lang.Long
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.serializer.SerializerFeature
 import org.slf4j.LoggerFactory
+import scala.collection.mutable.ArrayBuffer
 
 /**
  * Redis服务层
@@ -127,7 +128,12 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
 
     def delete(prefix: KeyPrefix): Boolean = {
         var jedis: Jedis = null
-        var keys = scanKeys(prefix.getPrefix())
+        var keys: JavaList[String] = scanKeys(prefix.getPrefix())
+        val keyss = new ArrayBuffer[String]()
+        for (k <- keys) {
+            if (k != null)
+                keyss.+=(k)
+        }
         if (prefix == null) {
             return false
         }
@@ -136,8 +142,8 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
         }
         try {
             jedis = jedisPool.getResource()
-            //TODO参数
-            jedis.del(keys.toArray().asInstanceOf[String])
+            //TODO参数，数组元素作为每个小单元传入参数,必须注意这里的参数传递
+            jedis.del(keyss: _*)
             true
         } catch {
             case e: Exception =>

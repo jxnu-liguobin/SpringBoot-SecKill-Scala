@@ -12,6 +12,8 @@ import cn.edu.jxnu.seckill.result.CodeMsg
 import cn.edu.jxnu.seckill.vo.OrderDetailVo
 import org.springframework.web.bind.annotation.RequestParam
 import org.slf4j.LoggerFactory
+import io.swagger.annotations.Api
+import org.springframework.web.bind.annotation.GetMapping
 
 /**
  * 订单控制器
@@ -22,12 +24,13 @@ import org.slf4j.LoggerFactory
  */
 @RestController
 @RequestMapping(Array("/order"))
+@Api(value = "订单controller", tags = { Array("订单接口") })
 class OrderController @Autowired() (orderService: OrderService,
     goodsService: GoodsService) {
 
     private final val log = LoggerFactory.getLogger(classOf[OrderController])
 
-    @RequestMapping(Array("/detail"))
+    @GetMapping(Array("/detail"))
     def info(model: Model, user: SeckillUser, @RequestParam("orderId") orderId: Long): Result[OrderDetailVo] = {
 
         if (user == null)

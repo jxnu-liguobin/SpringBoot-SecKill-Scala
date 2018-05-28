@@ -7,8 +7,8 @@ INSERT INTO `goods` VALUES ('2', 'apple手机', 'apple手机', '/img/iphonex.png
 -- ----------------------------
 -- Records of seckill_goods
 -- ----------------------------
-INSERT INTO `seckill_goods` VALUES ('1', '1', '100', '2018-04-21 12:10:31', '2018-04-28 12:10:36', '0.01');
-INSERT INTO `seckill_goods` VALUES ('2', '2', '99', '2018-04-20 12:10:31', '2018-04-22 12:10:36', '0.01');
+INSERT INTO `seckill_goods` VALUES ('1', '1', '100', '2018-04-21 12:10:31', '2018-06-28 12:10:36', '0.01');
+INSERT INTO `seckill_goods` VALUES ('2', '2', '99', '2018-04-20 12:10:31', '2018-06-22 12:10:36', '0.01');
 
 
 -- ----------------------------

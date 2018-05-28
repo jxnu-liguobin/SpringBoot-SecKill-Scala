@@ -9,6 +9,10 @@ import org.springframework.ui.Model
 import cn.edu.jxnu.seckill.domain.SeckillUser
 import cn.edu.jxnu.seckill.result.Result
 import org.slf4j.LoggerFactory
+import io.swagger.annotations.ApiOperation
+import io.swagger.annotations.ApiImplicitParam
+import io.swagger.annotations.Api
+import org.springframework.web.bind.annotation.GetMapping
 
 /**
  * 用户控制器
@@ -20,6 +24,7 @@ import org.slf4j.LoggerFactory
  */
 @RestController
 @RequestMapping(Array("/user"))
+@Api(value = "测试用户controller", tags = { Array("测试用户接口") })
 class UserController @Autowired() (userService: SeckillUserService,
     redisService: RedisService) {
 
@@ -28,7 +33,9 @@ class UserController @Autowired() (userService: SeckillUserService,
     /**
      * QPS:366.6 1000 * 10
      */
-    @RequestMapping(Array("/info"))
+    @ApiOperation(value = "测试用户", notes = { "测试用户" })
+    @ApiImplicitParam(name     = "seckillUser", value = "SeckillUser", required = true, dataType = "SeckillUser")
+    @GetMapping(Array("/info"))
     def info(model: Model, user: SeckillUser): Result[SeckillUser] = {
 
         log.info("用户user：" + user.toString())

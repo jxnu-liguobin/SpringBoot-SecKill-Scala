@@ -42,9 +42,9 @@ class Swagger2Cfg {
         // 页面标题
         .title("SpringBoot-Base-System-Document")
         // 创建人
-        .description("梦境迷离:https://github.com/jxnu-liguobin").termsOfServiceUrl("https://github.com/jxnu-liguobin")
+        .description("梦境迷离：https://github.com/jxnu-liguobin").termsOfServiceUrl("https://github.com/jxnu-liguobin")
         // 创建人
-        .contact("梦境迷离")
+        .contact("梦境迷离，注意：测试秒杀接口之前，需要调用reset重置秒杀数据")
         // 版本号
         .version("1.0").build()
 
