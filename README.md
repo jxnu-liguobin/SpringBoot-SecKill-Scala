@@ -9,6 +9,8 @@
             JDK1.8
             
         其他技术
+        
+            Swagger
             RabbitMQ
             Redis
             Validation JSR303
@@ -46,6 +48,7 @@ mybatis接口：        
         8、实体类仅仅实现了toString方法，需要注意，没有其他！
         9、部分代码强行移植，缺乏观赏性，待优化。
         10、需要针对函数式编程进行优化
+        11、没找到怎么实现Scala注解的数组，对于多参数多个@ApiImplicitParam，无能为力，Scala注解实在太坑了
  
 
 
