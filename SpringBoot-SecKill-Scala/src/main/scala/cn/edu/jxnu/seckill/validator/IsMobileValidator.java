@@ -11,6 +11,8 @@ import cn.edu.jxnu.seckill.util.ValidatorUtilScala;
  * Java实现验证手机号
  * 
  * 待修改
+ * 
+ * 有时存在一个编译问题，运行正常
  *
  * @author 梦境迷离.
  * @time 2018年5月20日
