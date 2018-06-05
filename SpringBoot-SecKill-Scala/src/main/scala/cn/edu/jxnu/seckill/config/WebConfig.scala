@@ -24,10 +24,12 @@ class WebConfig @Autowired() (userArgumentResolver: UserArgumentResolver, access
     extends WebMvcConfigurerAdapter {
 
     override def addArgumentResolvers(argumentResolvers: JavaList[HandlerMethodArgumentResolver]) {
+        //注册用户参数解析器
         argumentResolvers.add(userArgumentResolver)
     }
 
     override def addInterceptors(registry: InterceptorRegistry) {
+        //注册访问限制拦截器
         registry.addInterceptor(accessInterceptor)
     }
 

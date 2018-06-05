@@ -9,9 +9,6 @@ import cn.edu.jxnu.seckill.domain.SeckillUser
  * @time 2018年5月19日
  * @version v1.0
  */
-//class UserContext {
-//
-//}
 package object UserContext {
 
     private var userHolder: ThreadLocal[SeckillUser] = new ThreadLocal[SeckillUser]()
