@@ -35,46 +35,47 @@ import cn.edu.jxnu.seckill.service.SeckillUserService
 class AccessInterceptor @Autowired() (userService: SeckillUserService, redisService: RedisService)
     extends HandlerInterceptorAdapter {
 
-    override def preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Object): Boolean =
-        {
-            if (handler.isInstanceOf[HandlerMethod]) {
-                val user = getUser(request, response)
-                UserContext.setUser(user)
-                val hm = handler.asInstanceOf[HandlerMethod]
-                val accessLimit = hm.getMethodAnnotation(classOf[AccessLimit])
-                if (accessLimit == null)
-                    return true
-                val seconds = accessLimit.seconds()
-                val maxCount = accessLimit.maxCount()
-                val needLogin = accessLimit.needLogin()
-                var key = request.getRequestURI()
-                if (needLogin) {
-                    if (user == null) {
-                        render(response, CodeMsg.SESSION_ERROR)
-                        return false
-                    }
-                    key += "_" + user.getId()
-                } else {
-                    //do nothing
-                }
-                val ak = AccessKey.withExpire(seconds)
-                val count = redisService.get(ak, key, classOf[Integer])
-                if (count == null) {
-                    redisService.set(ak, key, 1)
-                } else if (count < maxCount) {
-                    redisService.incr(ak, key)
-                } else {
-                    render(response, CodeMsg.ACCESS_LIMIT_REACHED)
+    override def preHandle(request: HttpServletRequest, response: HttpServletResponse, handler: Object): Boolean = {
+
+        if (handler.isInstanceOf[HandlerMethod]) {
+            val user = getUser(request, response)
+            UserContext.setUser(user)
+            val hm = handler.asInstanceOf[HandlerMethod]
+            val accessLimit = hm.getMethodAnnotation(classOf[AccessLimit])
+            if (accessLimit == null)
+                return true
+            val seconds = accessLimit.seconds()
+            val maxCount = accessLimit.maxCount()
+            val needLogin = accessLimit.needLogin()
+            var key = request.getRequestURI()
+            if (needLogin) {
+                if (user == null) {
+                    render(response, CodeMsg.SESSION_ERROR)
                     return false
                 }
+                key += "_" + user.getId()
+            } else {
+                //do nothing
             }
-            true
+            val ak = AccessKey.withExpire(seconds)
+            val count = redisService.get(ak, key, classOf[Integer])
+            if (count == null) {
+                redisService.set(ak, key, 1)
+            } else if (count < maxCount) {
+                redisService.incr(ak, key)
+            } else {
+                render(response, CodeMsg.ACCESS_LIMIT_REACHED)
+                return false
+            }
         }
+        true
+    }
 
     /**
      * 给服务端提示
      */
     private def render(response: HttpServletResponse, cm: CodeMsg) {
+
         response.setContentType("application/jsoncharset=UTF-8")
         val out = response.getOutputStream()
         val str = JSON.toJSONString(Result.error(cm), false)
@@ -87,6 +88,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
      * 取出用户
      */
     private def getUser(request: HttpServletRequest, response: HttpServletResponse): SeckillUser = {
+
         var token: Any = null
         val paramToken = request.getParameter(SeckillUserService.COOKI_NAME_TOKEN)
         val cookieToken = getCookieValue(request, SeckillUserService.COOKI_NAME_TOKEN)
@@ -103,6 +105,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
      * 从cookie取
      */
     private def getCookieValue(request: HttpServletRequest, cookiName: String): String = {
+
         val cookies = request.getCookies()
         if (cookies == null || cookies.length <= 0)
             return null
@@ -110,7 +113,7 @@ class AccessInterceptor @Autowired() (userService: SeckillUserService, redisServ
             if (cookie.getName().equals(cookiName))
                 return cookie.getValue()
         }
-        return null
+        null
     }
 
 }
