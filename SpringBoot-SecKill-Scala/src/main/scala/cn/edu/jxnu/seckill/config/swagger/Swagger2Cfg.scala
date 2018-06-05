@@ -27,11 +27,6 @@ class Swagger2Cfg {
 
     /**
      * swagger2的配置文件，这里可以配置swagger2的一些基本的内容，比如扫描的包等等
-     *
-     * @author 梦境迷离.
-     * @time 2018年5月28日
-     * @version v1.0
-     * @return
      */
     @Bean
     def createRestApi() = new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo())

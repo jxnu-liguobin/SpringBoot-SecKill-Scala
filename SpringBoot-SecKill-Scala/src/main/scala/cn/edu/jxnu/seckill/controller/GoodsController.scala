@@ -57,8 +57,7 @@ class GoodsController @Autowired() (goodsService: GoodsService,
     def list(request: HttpServletRequest, response: HttpServletResponse, model: Model,
         user: SeckillUser): String = {
 
-        //TODO 空指针,已修复
-        // log.info("商品列表秒杀用户:"+user.toString())
+        log.info("【商品列表秒杀用户】:" + user.toString())
         // 取缓存，缓存默认1分钟
         var html = redisService.get(GoodsKey.getGoodsList, "", classOf[String])
         if (!StringUtils.isEmpty(html))
@@ -87,8 +86,7 @@ class GoodsController @Autowired() (goodsService: GoodsService,
     def detail(request: HttpServletRequest, response: HttpServletResponse, model: Model,
         user: SeckillUser, @PathVariable("goodsId") goodsId: Long): Result[GoodsDetailVo] = {
 
-        //TODO 这里空指针，已修复
-        //log.info("查看商品详情携带的用户:"+user.toString())
+        log.info("【查看商品详情携带的用户】:" + user.toString())
         val goods = goodsService.getGoodsVoByGoodsId(goodsId)
         //定义2个Long类型，操作之后再把它强转为Int
         val startAt: Long = goods.getStartDate().getTime()

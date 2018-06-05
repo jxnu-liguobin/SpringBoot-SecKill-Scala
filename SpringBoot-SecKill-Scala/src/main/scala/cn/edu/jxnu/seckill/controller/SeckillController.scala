@@ -46,7 +46,8 @@ import io.swagger.annotations.ApiImplicitParam
 @RestController
 @RequestMapping(Array("/seckill"))
 @Api(value = "秒杀controller", tags = { Array("秒杀接口") })
-class SeckillController @Autowired() (goodsService: GoodsService, seckillService: SeckillService, orderService: OrderService, redisService: RedisService,
+class SeckillController @Autowired() (goodsService: GoodsService, seckillService: SeckillService,
+    orderService: OrderService, redisService: RedisService,
     sender: RabbitMQSender) extends InitializingBean {
 
     private final val log = LoggerFactory.getLogger(classOf[SeckillController])
@@ -59,18 +60,15 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
      */
     @AccessLimit(seconds   = 5, maxCount = 5, needLogin = true)
     @GetMapping(Array("/path"))
-    def getMiaoshaPath(request: HttpServletRequest, user: SeckillUser,
-        @RequestParam("goodsId") goodsId: Long,
-        @RequestParam(value        = "verifyCode", defaultValue = "0") verifyCode: Integer): Result[String] = {
+    def getMiaoshaPath(request: HttpServletRequest, user: SeckillUser, @RequestParam("goodsId") goodsId: Long,
+        @RequestParam(value  = "verifyCode", defaultValue = "0") verifyCode: Integer): Result[String] = {
 
         if (user == null)
             return Result.error(CodeMsg.SESSION_ERROR)
         val check = seckillService.checkVerifyCode(user, goodsId, verifyCode)
         if (!check)
             return Result.error(CodeMsg.REQUEST_ILLEGAL)
-        val path = seckillService.createSeckillPath(user, goodsId)
-        log.debug("获取秒杀路径：" + path)
-        Result.success(path)
+        Result.success(seckillService.createSeckillPath(user, goodsId))
     }
 
     /**
@@ -128,8 +126,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         model.addAttribute("user", user)
         if (user == null)
             return Result.error(CodeMsg.SESSION_ERROR)
-        val result = seckillService.getSeckillResult(user.getId(), goodsId)
-        Result.success(result)
+        Result.success(seckillService.getSeckillResult(user.getId(), goodsId))
     }
 
     /**
@@ -142,7 +139,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
             return
         for (goods <- goodsList) {
             redisService.set(GoodsKey.getSeckillGoodsStock, "" + goods.getId(), goods.getStockCount())
-            localOverMap.put(goods.getId(), false)
+            localOverMap.put(goods.getId(), false)//内存标记为没有秒杀完
         }
     }
 
@@ -156,6 +153,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         val goodsList = goodsService.listGoodsVo()
         for (goods <- goodsList) {
             goods.setStockCount(10)
+            // 设置初始的容量
             redisService.set(GoodsKey.getSeckillGoodsStock, "" + goods.getId(), 10)
             localOverMap.put(goods.getId(), false)
         }

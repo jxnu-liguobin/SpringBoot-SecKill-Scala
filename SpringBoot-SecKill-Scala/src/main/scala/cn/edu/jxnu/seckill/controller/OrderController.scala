@@ -38,12 +38,11 @@ class OrderController @Autowired() (orderService: OrderService,
         val order = orderService.getOrderById(orderId)
         if (order == null)
             return Result.error(CodeMsg.ORDER_NOT_EXIST)
-        val goodsId = order.getGoodsId()
-        val goods = goodsService.getGoodsVoByGoodsId(goodsId)
+        val goods = goodsService.getGoodsVoByGoodsId(order.getGoodsId())
         val vo = new OrderDetailVo()
         vo.setOrder(order)
         vo.setGoods(goods)
-        log.info("订单ID：" + goodsId)
+        log.info("订单ID：" + order.getGoodsId())
         Result.success(vo)
     }
 

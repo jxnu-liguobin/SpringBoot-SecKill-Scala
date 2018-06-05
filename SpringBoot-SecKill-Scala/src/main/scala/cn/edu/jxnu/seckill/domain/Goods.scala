@@ -21,31 +21,31 @@ class Goods {
     //a.name = "foo" 调用a.name_ (x:String) = xxx = x
     //商品id
     @BeanProperty
-    var id: Long = _
+    private[seckill] var id: Long = _
 
     //商品名称
     @BeanProperty
-    var goodsName: String = _
+    private[seckill] var goodsName: String = _
 
     //商品标题
     @BeanProperty
-    var goodsTitle: String = _
+    private[seckill] var goodsTitle: String = _
 
     //商品图片
     @BeanProperty
-    var goodsImg: String = _
+    private[seckill] var goodsImg: String = _
 
     //商品详情描述
     @BeanProperty
-    var goodsDetail: String = _
+    private[seckill] var goodsDetail: String = _
 
     //商品单价
     @BeanProperty
-    var goodsPrice: String = _
+    private[seckill] var goodsPrice: String = _
 
     //商品库存
     @BeanProperty
-    var goodsStock: String = _
+    private[seckill] var goodsStock: String = _
 
     /**
      * 重写父类非抽象方法，必须加override

@@ -37,9 +37,9 @@ class WebConfig @Autowired() (userArgumentResolver: UserArgumentResolver, access
      * addResourceLocations是必须的，否则swagger被拦截
      */
     override def addResourceHandlers(registry: ResourceHandlerRegistry) {
+        
         registry.addResourceHandler("/**").addResourceLocations("classpath:/static/")
-        registry.addResourceHandler("swagger-ui.html")
-            .addResourceLocations("classpath:/META-INF/resources/")
+        registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/")
         super.addResourceHandlers(registry)
     }
 

@@ -15,47 +15,47 @@ class OrderInfo {
 
     //订单id
     @BeanProperty
-    var id: Long = _
+    private[seckill] var id: Long = _
 
     //下单用户id
     @BeanProperty
-    var userId: Long = _
+    private[seckill] var userId: Long = _
 
     //商品id
     @BeanProperty
-    var goodsId: Long = _
+    private[seckill] var goodsId: Long = _
 
     //交付地址id
     @BeanProperty
-    var deliveryAddrId: Long = _
+    private[seckill] var deliveryAddrId: Long = _
 
     //商品名称
     @BeanProperty
-    var goodsName: String = _
+    private[seckill] var goodsName: String = _
 
     //商品数量
     @BeanProperty
-    var goodsCount: Integer = _
+    private[seckill] var goodsCount: Integer = _
 
     //商品价格
     @BeanProperty
-    var goodsPrice: Double = _
+    private[seckill] var goodsPrice: Double = _
 
     //订单渠道
     @BeanProperty
-    var orderChannel: Integer = _
+    private[seckill] var orderChannel: Integer = _
 
     //订单状态 未支付，已支付等等
     @BeanProperty
-    var status: Integer = _
+    private[seckill] var status: Integer = _
 
     //创建日期
     @BeanProperty
-    var createDate: Date = _
+    private[seckill] var createDate: Date = _
 
     //支付日期
     @BeanProperty
-    var payDate: Date = _
+    private[seckill] var payDate: Date = _
 
     override def toString(): String = {
         "OrderInfo [id=" + id + ", userId=" + userId + ", goodsId=" + goodsId + ", deliveryAddrId="
