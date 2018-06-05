@@ -4,7 +4,7 @@ import java.util.regex.Pattern
 import org.apache.commons.lang3.StringUtils
 
 /**
- * 验证工具
+ * 验证手机号码的工具
  *
  * 注解使用的是Java,由于Java调用半生对象失败，未知原因，改用普通类
  *

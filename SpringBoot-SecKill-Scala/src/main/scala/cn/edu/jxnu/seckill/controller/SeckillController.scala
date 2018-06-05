@@ -38,6 +38,8 @@ import io.swagger.annotations.ApiImplicitParam
 
 /**
  * 秒杀控制器
+ * 
+ * 初始化bean
  *
  * @author 梦境迷离.
  * @time 2018年5月21日
@@ -61,7 +63,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
     @AccessLimit(seconds   = 5, maxCount = 5, needLogin = true)
     @GetMapping(Array("/path"))
     def getMiaoshaPath(request: HttpServletRequest, user: SeckillUser, @RequestParam("goodsId") goodsId: Long,
-        @RequestParam(value  = "verifyCode", defaultValue = "0") verifyCode: Integer): Result[String] = {
+        @RequestParam(value = "verifyCode", defaultValue = "0") verifyCode: Integer): Result[String] = {
 
         if (user == null)
             return Result.error(CodeMsg.SESSION_ERROR)
@@ -126,6 +128,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
         model.addAttribute("user", user)
         if (user == null)
             return Result.error(CodeMsg.SESSION_ERROR)
+        //从数据库去查询订单，存在测可以得到订单ID
         Result.success(seckillService.getSeckillResult(user.getId(), goodsId))
     }
 
@@ -139,7 +142,7 @@ class SeckillController @Autowired() (goodsService: GoodsService, seckillService
             return
         for (goods <- goodsList) {
             redisService.set(GoodsKey.getSeckillGoodsStock, "" + goods.getId(), goods.getStockCount())
-            localOverMap.put(goods.getId(), false)//内存标记为没有秒杀完
+            localOverMap.put(goods.getId(), false) //内存标记为没有秒杀完
         }
     }
 

@@ -29,6 +29,9 @@ class OrderService @Autowired() (orderDao: OrderDao,
         redisService.get(OrderKey.getSeckillOrderByUidGid, "" + userId + "_" + goodsId, classOf[SeckillOrder])
     }
 
+    /**
+     * 订单创建
+     */
     @Transactional
     def createOrder(user: SeckillUser, goods: GoodsVo): OrderInfo = {
         val orderInfo = new OrderInfo()
@@ -52,10 +55,18 @@ class OrderService @Autowired() (orderDao: OrderDao,
         orderInfo
     }
 
+    /**
+     * 根据订单id查询订单信息
+     */
     def getOrderById(orderId: Long): OrderInfo = {
         orderDao.getOrderById(orderId)
     }
 
+    /**
+     * 删除订单
+     * 
+     * 先删除订单再删除秒杀订单
+     */
     def deleteOrders() {
         orderDao.deleteOrders()
         orderDao.deleteSeckillaOrders()

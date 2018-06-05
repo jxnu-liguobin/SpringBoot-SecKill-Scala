@@ -18,18 +18,32 @@ import cn.edu.jxnu.seckill.domain.SeckillGoods
  * @version v1.0
  */
 @Service
-class GoodsService @Autowired() (val goodsDao: GoodsDao) {
+class GoodsService @Autowired() (goodsDao: GoodsDao) {
 
+    /**
+     * 查询全部
+     */
     def listGoodsVo(): JavaList[GoodsVo] = goodsDao.listGoodsVo()
 
+    /**
+     * 根据商品id查询商品视图对象
+     */
     def getGoodsVoByGoodsId(id: Long) = goodsDao.getGoodsVoByGoodsId(id)
 
+    /**
+     * 修改商品库存
+     *
+     * 默认每次减1
+     */
     def reduceStock(goods: GoodsVo): Boolean = {
         var g = new SeckillGoods()
         g.setGoodsId(goods.getId())
         goodsDao.reduceStock(g) > 0
     }
 
+    /**
+     * 恢复库存
+     */
     def resetStock(goodsList: JavaList[GoodsVo]) {
         for (goods <- goodsList) {
             val g = new SeckillGoods()

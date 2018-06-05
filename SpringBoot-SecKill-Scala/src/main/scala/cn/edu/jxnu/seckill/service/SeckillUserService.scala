@@ -28,7 +28,11 @@ import org.slf4j.LoggerFactory
 class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     redisService: RedisService) {
 
+    /**
+     * 登陆
+     */
     def login(response: HttpServletResponse, @Valid loginVo: LoginVo): String = {
+
         if (loginVo == null)
             throw new GlobalException(CodeMsg.SERVER_ERROR)
         val mobile = loginVo.getMobile()
@@ -49,6 +53,12 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         token
     }
 
+    /**
+     * 查询秒杀用户
+     *
+     * 存在，返回
+     * 不在，去数据查询，再放假redis
+     */
     def getById(id: Long): SeckillUser = {
         // 取缓存
         var user = redisService.get(SeckillUserKey.getById, "" + id, classOf[SeckillUser])
@@ -63,6 +73,9 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         user
     }
 
+    /**
+     * token是唯一的，需要传进来，不然无法登陆了
+     */
     def updatePassword(token: String, id: Long, formPass: String): Boolean = {
         // 取user
         val user = getById(id)
@@ -73,7 +86,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         toBeUpdate.setId(id)
         toBeUpdate.setPassword(MD5Util.formPassToDBPass(formPass, user.getSalt()))
         seckillUserDao.update(toBeUpdate)
-        // 处理缓存
+        // 清楚缓存再更新
         redisService.delete(SeckillUserKey.getById, "" + id)
         user.setPassword(toBeUpdate.getPassword())
         //更新，如果删除token[uuid唯一]就无法登陆了
@@ -81,6 +94,9 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         true
     }
 
+    /**
+     * 设置cookie
+     */
     private def addCookie(response: HttpServletResponse, token: String, user: SeckillUser) {
 
         //TODO 这里存在用户
@@ -92,7 +108,11 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
         response.addCookie(cookie)
     }
 
+    /**
+     * 根据token获取用户信息
+     */
     def getByToken(response: HttpServletResponse, token: String): SeckillUser = {
+
         if (StringUtils.isEmpty(token))
             return null
         val user = redisService.get(SeckillUserKey.token, token, classOf[SeckillUser])

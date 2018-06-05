@@ -34,6 +34,9 @@ import org.slf4j.LoggerFactory
 class SeckillService @Autowired() (goodsService: GoodsService,
     orderService: OrderService, redisService: RedisService) {
 
+    /**
+     * 秒杀
+     */
     @Transactional
     def seckill(user: SeckillUser, goods: GoodsVo): OrderInfo = {
         // 减库存 下订单 写入秒杀订单
@@ -56,7 +59,11 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         orderService.deleteOrders()
     }
 
+    /**
+     * 前台轮询查询秒杀结果
+     */
     def getSeckillResult(userId: Long, goodsId: Long): Long = {
+
         val order = orderService.getSeckillOrderByUserIdGoodsId(userId, goodsId)
         if (order != null) { // 秒杀成功
             //返回秒杀商品给前台用来查看订单
@@ -71,18 +78,21 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         }
     }
 
-    def setGoodsOver(goodsId: Long) {
-        redisService.set(SeckillKey.isGoodsOver, "" + goodsId, true)
-    }
+    /**
+     * 设置商品是否秒杀完标记
+     */
+    def setGoodsOver(goodsId: Long) = redisService.set(SeckillKey.isGoodsOver, "" + goodsId, true)
 
-    def getGoodsOver(goodsId: Long): Boolean = {
-        redisService.exists(SeckillKey.isGoodsOver, "" + goodsId)
-    }
+    /**
+     * 商品是否秒杀完的标记
+     */
+    def getGoodsOver(goodsId: Long): Boolean = redisService.exists(SeckillKey.isGoodsOver, "" + goodsId)
 
     /**
      * 生成随机uuid，作为获取地址携带的参数
      */
     def createSeckillPath(user: SeckillUser, goodsId: Long): String = {
+
         if (user == null || goodsId <= 0) {
             return null
         }
@@ -95,6 +105,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
      * 判断前端传来的uuid是否与redis中的相同
      */
     def checkPath(user: SeckillUser, goodsId: Long, path: String): Boolean = {
+
         if (user == null || path == null) {
             return false
         }
@@ -103,9 +114,10 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     }
 
     /**
-     * 验证码
+     * 验证码创建，并写入到页面
      */
     def createVerifyCode(user: SeckillUser, goodsId: Long): BufferedImage = {
+
         if (user == null || goodsId <= 0) {
             return null
         }
@@ -142,7 +154,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     }
 
     /**
-     * 计算验证码
+     * 脚本计算验证码
      */
     private def calc(exp: String): Int = {
         try {
@@ -156,10 +168,10 @@ class SeckillService @Autowired() (goodsService: GoodsService,
         }
     }
 
-    private val ops = Array('+', '-', '*')
+    private final val ops = Array('+', '-', '*')
 
     /**
-     * 生成验证码
+     * 生成验证码的表达式
      */
     private def generateVerifyCode(rdm: Random): String = {
         val num1 = rdm.nextInt(10)
@@ -172,14 +184,14 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     }
 
     /**
-     * 检查验证码
+     * 检查验证码表达式的值，成功就删除
      */
     def checkVerifyCode(user: SeckillUser, goodsId: Long, verifyCode: Int): Boolean = {
+
         if (user == null || goodsId <= 0) {
             return false
         }
-        val codeOld = redisService.get(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId,
-                                       classOf[Integer])
+        val codeOld = redisService.get(SeckillKey.getSeckillVerifyCode, user.getId() + "," + goodsId, classOf[Integer])
         if (codeOld == null || codeOld - verifyCode != 0) {
             return false
         }

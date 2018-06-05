@@ -15,12 +15,16 @@ import cn.edu.jxnu.seckill.domain.User
  * @version v1.0
  */
 @Service
-class UserService @Autowired() (val userDao: UserDao) {
+class UserService @Autowired() (userDao: UserDao) {
 
-    def getById(id: Integer): User = {
-        userDao.getById(id)
-    }
+    /**
+     * 查询用户
+     */
+    def getById(id: Integer) = userDao.getById(id)
 
+    /**
+     * 新增
+     */
     @Transactional
     def tx() {
         userDao.insert(3, "张三")
