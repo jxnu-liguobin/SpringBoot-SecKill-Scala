@@ -15,8 +15,8 @@ class UserKey private (var prefix: String) extends BasePrefix(prefix) {
 
 object UserKey {
 
-    final val getById: UserKey = new UserKey("id")
+    final val getById = new UserKey("id")
 
-    final val getByName: UserKey = new UserKey("name")
+    final val getByName = new UserKey("name")
 
 }

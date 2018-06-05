@@ -20,7 +20,11 @@ class RabbitMQSender @Autowired() (amqpTemplate: AmqpTemplate) {
 
     private final val log = LoggerFactory.getLogger(classOf[RabbitMQSender])
 
+    /**
+     * 秒杀消息由商品ID和秒杀用户，唯一确定
+     */
     def sendSeckillMessage(mm: SeckillMessage) {
+        //将秒杀消息传入队列，发送到接收者【消费者】
         val msg = RedisService.beanToString(mm)
         log.info("send message:" + msg)
         amqpTemplate.convertAndSend(RabbitMQConst.SECKILL_QUEUE, msg)

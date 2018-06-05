@@ -13,9 +13,9 @@ import scala.beans.BeanProperty
 abstract class BasePrefix extends KeyPrefix {
 
     /** 默认0代表永不过期. */
-    var expireSe: Integer = 0
+    private[seckill] var expireSe: Integer = 0
 
-    var prefix: String
+    private[seckill] var prefix: String
 
     /** 带参辅助构造. */
     def this(prefix: String) {

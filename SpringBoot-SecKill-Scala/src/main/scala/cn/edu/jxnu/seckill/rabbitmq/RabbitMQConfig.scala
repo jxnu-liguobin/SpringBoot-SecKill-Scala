@@ -39,7 +39,7 @@ class RabbitMQConfig {
 
     /**
      * Topic模式 交换机Exchange
-     * 
+     *
      * 将路由键和某模式进行匹配。此时队列需要绑定要一个模式上。
      * 符号“#”匹配一个或多个词，符号“*”匹配不多不少一个词。
      * 因此“abc.#”能够匹配到“abc.def.ghi”，但是“abc.*” 只会匹配到“abc.def”。
@@ -61,7 +61,7 @@ class RabbitMQConfig {
 
     /**
      * Fanout模式 交换机Exchange
-     * 
+     *
      * 不处理路由键。你只需要简单的将队列绑定到交换机上。
      * 一个发送到交换机的消息都会被转发到与该交换机绑定的所有队列上。
      * 很像子网广播，每台子网内的主机都获得了一份复制的消息。
@@ -78,7 +78,7 @@ class RabbitMQConfig {
 
     /**
      * Header模式 交换机Exchange
-     * 
+     *
      * 不处理路由键。而是根据发送的消息内容中的headers属性进行匹配。
      * 在绑定Queue与Exchange时指定一组键值对；当消息发送到RabbitMQ时会取到该消息的headers与Exchange绑定时指定的键值对进行匹配；
      * 如果完全匹配则消息会路由到该队列，否则不会路由到该队列。

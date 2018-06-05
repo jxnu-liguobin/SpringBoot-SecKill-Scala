@@ -24,7 +24,6 @@ class Result[T]() {
     /**
      * 均是不能被外部使用的
      */
-    //全参构造
     private def this(code: Integer, msg: String, data: T) {
         this()
         this.code = code
@@ -39,6 +38,7 @@ class Result[T]() {
         this.msg = "success"
         this.data = data
     }
+
     //带状态码消息的构造
     private def this(msg: CodeMsg) {
         this()

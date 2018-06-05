@@ -14,9 +14,9 @@ import cn.edu.jxnu.seckill.domain.SeckillUser
 class SeckillMessage {
 
     @BeanProperty
-    var user: SeckillUser = _
+    private[seckill] var user: SeckillUser = _
 
     @BeanProperty
-    var goodsId: Long = _
+    private[seckill] var goodsId: Long = _
 
 }

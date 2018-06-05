@@ -30,6 +30,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
     private final val log = LoggerFactory.getLogger(classOf[RedisService])
 
     def get[T](prefix: KeyPrefix, key: String, clazz: Class[T]): T = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -47,6 +48,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
      * 设置对象
      */
     def set[T](prefix: KeyPrefix, key: String, value: T): Boolean = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -70,6 +72,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
      * 判断key是否存在
      */
     def exists[T](prefix: KeyPrefix, key: String): Boolean = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -85,6 +88,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
      * 增加值
      */
     def incr[T](prefix: KeyPrefix, key: String): Long = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -100,6 +104,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
      * 减少值
      */
     def decr[T](prefix: KeyPrefix, key: String): Long = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -115,6 +120,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
      * 删除
      */
     def delete(prefix: KeyPrefix, key: String): Boolean = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -127,6 +133,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
     }
 
     def delete(prefix: KeyPrefix): Boolean = {
+
         var jedis: Jedis = null
         var keys: JavaList[String] = scanKeys(prefix.getPrefix())
         val keyss = new ArrayBuffer[String]()
@@ -155,6 +162,7 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
     }
 
     def scanKeys(key: String): JavaList[String] = {
+
         var jedis: Jedis = null
         try {
             jedis = jedisPool.getResource()
@@ -182,7 +190,11 @@ class RedisService @Autowired() (val jedisPool: JedisPool) {
 
 object RedisService {
 
+    /**
+     * 通用的工具，将bean转化为String
+     */
     def beanToString[T](value: T): String = {
+
         if (value == null)
             return null
         val clazz = value.getClass()
@@ -198,9 +210,12 @@ object RedisService {
         }
     }
 
+    /**
+     * 通用的工具，将String转化为bean
+     */
     def stringToBean[T](str: String, clazz: Class[T]): T = {
         /**
-         * Scala基本类型就是 包装类型
+         * Scala基本类型就是包装类型,可以说没有原生类型一说
          */
         if (str == null || str.length() <= 0 || clazz == null) {
             return null.asInstanceOf[T]
@@ -217,6 +232,7 @@ object RedisService {
     }
 
     private def returnToPool(jedis: Jedis) {
+
         if (jedis != null) jedis.close()
 
     }

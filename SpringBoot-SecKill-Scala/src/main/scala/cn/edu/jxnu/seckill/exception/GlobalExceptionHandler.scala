@@ -28,6 +28,7 @@ class GlobalExceptionHandler {
     @ExceptionHandler(value = Array(classOf[Exception]))
     def exceptionHandler(request: HttpServletRequest, exception: Exception): Result[String] = {
 
+        //打印堆栈，不然可能不知道具体的异常信息
         exception.printStackTrace()
         if (exception.isInstanceOf[GlobalException]) {
             Result.error(exception.asInstanceOf[GlobalException].getCm())

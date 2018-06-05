@@ -12,6 +12,9 @@ import scala.language.implicitConversions
  */
 class GlobalException extends RuntimeException {
 
+    /**
+     * 不可被重新，修改
+     */
     private final val serialVersionUID: Long = 1L
 
     private var cm: CodeMsg = _

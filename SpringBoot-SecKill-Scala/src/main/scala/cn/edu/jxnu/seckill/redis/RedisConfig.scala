@@ -8,6 +8,7 @@ import scala.beans.BeanProperty
 /**
  * SpringBoot安全注入
  *
+ *
  * @author 梦境迷离.
  * @time 2018年5月20日
  * @version v1.0
@@ -17,25 +18,25 @@ import scala.beans.BeanProperty
 class RedisConfig {
 
     @BeanProperty
-    var host: String = _
+    private[seckill] var host: String = _
 
     @BeanProperty
-    var port: Integer = _
-
-    // 秒
-    @BeanProperty
-    var timeout: Integer = _
-
-    @BeanProperty
-    var password: String = _
-
-    @BeanProperty
-    var poolMaxTotal: Integer = _
-
-    @BeanProperty
-    var poolMaxIdle: Integer = _
+    private[seckill] var port: Integer = _
 
     // 秒
     @BeanProperty
-    var poolMaxWait: Integer = _
+    private[seckill] var timeout: Integer = _
+
+    @BeanProperty
+    private[seckill] var password: String = _
+
+    @BeanProperty
+    private[seckill] var poolMaxTotal: Integer = _
+
+    @BeanProperty
+    private[seckill] var poolMaxIdle: Integer = _
+
+    // 秒
+    @BeanProperty
+    private[seckill] var poolMaxWait: Integer = _
 }

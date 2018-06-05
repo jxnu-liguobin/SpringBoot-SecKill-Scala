@@ -16,5 +16,5 @@ class OrderKey private (var prefix: String) extends BasePrefix(prefix) {
 object OrderKey {
 
     //获取秒杀生成的订单，从中取值，检查用户是否多次秒杀，
-    final val getSeckillOrderByUidGid: OrderKey = new OrderKey("moug")
+    final val getSeckillOrderByUidGid = new OrderKey("moug")
 }

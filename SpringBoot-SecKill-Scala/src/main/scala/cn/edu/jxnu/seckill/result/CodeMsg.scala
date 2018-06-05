@@ -18,6 +18,9 @@ class CodeMsg() {
     @BeanProperty
     var msg: String = _
 
+    /**
+     * 参数格式化
+     */
     def fillArgs(args: AnyRef*): CodeMsg = {
         val code = this.code
         val message = String.format(this.msg, args)

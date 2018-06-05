@@ -17,11 +17,11 @@ class SeckillUserKey private (expireSe: Integer, var prefix: String)
 object SeckillUserKey {
 
     //用户登陆token过期时间
-    final val TOKEN_EXPIRE: Integer = 3600 * 24 * 2
+    final val TOKEN_EXPIRE = 3600 * 24 * 2
 
     //用户登陆token前缀
-    final val token: SeckillUserKey = new SeckillUserKey(TOKEN_EXPIRE, "tk")
+    final val token = new SeckillUserKey(TOKEN_EXPIRE, "tk")
 
     // 对象不发生变化，则永久有效
-    final val getById: SeckillUserKey = new SeckillUserKey(0, "id")
+    final val getById = new SeckillUserKey(0, "id")
 }

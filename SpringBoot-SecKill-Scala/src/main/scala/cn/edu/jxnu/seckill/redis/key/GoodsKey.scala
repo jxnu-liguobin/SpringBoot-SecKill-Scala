@@ -9,18 +9,18 @@ import cn.edu.jxnu.seckill.redis.BasePrefix
  * @time 2018年5月20日
  * @version v1.0
  */
-class GoodsKey private (expireSe: Integer, var prefix: String) extends BasePrefix(expireSe, prefix) {
+class GoodsKey private (  expireSe: Integer, var prefix: String) extends BasePrefix(expireSe, prefix) {
 
 }
 
 object GoodsKey {
 
     //获取秒杀商品列表
-    final val getGoodsList: GoodsKey = new GoodsKey(60, "gl")
+    final val getGoodsList = new GoodsKey(60, "gl")
 
     //获取商品详情
-    final val getGoodsDetail: GoodsKey = new GoodsKey(60, "gd")
+    final val getGoodsDetail = new GoodsKey(60, "gd")
 
     //获取秒杀商品库存
-    final val getSeckillGoodsStock: GoodsKey = new GoodsKey(0, "gs")
+    final val getSeckillGoodsStock = new GoodsKey(0, "gs")
 }
