@@ -97,7 +97,7 @@ class SeckillUserService @Autowired() (seckillUserDao: SeckillUserDao,
     /**
      * 设置cookie
      */
-    private def addCookie(response: HttpServletResponse, token: String, user: SeckillUser) {
+    private val addCookie = (response: HttpServletResponse, token: String, user: SeckillUser) => {
 
         //TODO 这里存在用户
         redisService.set(SeckillUserKey.token, token, user)

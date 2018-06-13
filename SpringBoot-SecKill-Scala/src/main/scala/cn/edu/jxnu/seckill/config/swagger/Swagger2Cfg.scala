@@ -33,7 +33,7 @@ class Swagger2Cfg {
         .select().apis(RequestHandlerSelectors.basePackage("cn.edu.jxnu.seckill.controller"))
         .paths(PathSelectors.any()).build()
 
-    private def apiInfo() = new ApiInfoBuilder()
+    private val apiInfo = () => new ApiInfoBuilder()
         // 页面标题
         .title("SpringBoot-Base-System-Document")
         // 创建人

@@ -15,6 +15,6 @@ import java.util.UUID
 
 package object UUIDUtil {
 
-    def uuid() = UUID.randomUUID().toString().replace("-", "")
+    val uuid = () => UUID.randomUUID().toString().replace("-", "")
 
 }

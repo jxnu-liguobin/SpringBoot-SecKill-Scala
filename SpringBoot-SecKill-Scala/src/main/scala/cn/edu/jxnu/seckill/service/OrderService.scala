@@ -25,7 +25,7 @@ class OrderService @Autowired() (orderDao: OrderDao,
     redisService: RedisService) {
 
     //是否已经秒杀过【(user.id，goods.id)是数据库的唯一索引，且秒杀时，这个将存进redis】
-    def getSeckillOrderByUserIdGoodsId(userId: Long, goodsId: Long): SeckillOrder = {
+    val getSeckillOrderByUserIdGoodsId = (userId: Long, goodsId: Long) => {
         redisService.get(OrderKey.getSeckillOrderByUidGid, "" + userId + "_" + goodsId, classOf[SeckillOrder])
     }
 
@@ -33,7 +33,7 @@ class OrderService @Autowired() (orderDao: OrderDao,
      * 订单创建
      */
     @Transactional
-    def createOrder(user: SeckillUser, goods: GoodsVo): OrderInfo = {
+    val createOrder = (user: SeckillUser, goods: GoodsVo) => {
         val orderInfo = new OrderInfo()
         orderInfo.setCreateDate(new Date())
         orderInfo.setDeliveryAddrId(0L)
@@ -58,16 +58,16 @@ class OrderService @Autowired() (orderDao: OrderDao,
     /**
      * 根据订单id查询订单信息
      */
-    def getOrderById(orderId: Long): OrderInfo = {
+    val getOrderById = (orderId: Long) => {
         orderDao.getOrderById(orderId)
     }
 
     /**
      * 删除订单
-     * 
+     *
      * 先删除订单再删除秒杀订单
      */
-    def deleteOrders() {
+    val deleteOrders = () => {
         orderDao.deleteOrders()
         orderDao.deleteSeckillaOrders()
     }

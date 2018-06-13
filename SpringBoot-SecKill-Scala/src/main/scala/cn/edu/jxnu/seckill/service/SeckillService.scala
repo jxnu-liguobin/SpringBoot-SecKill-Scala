@@ -38,7 +38,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
      * 秒杀
      */
     @Transactional
-    def seckill(user: SeckillUser, goods: GoodsVo): OrderInfo = {
+    val seckill = (user: SeckillUser, goods: GoodsVo) => {
         // 减库存 下订单 写入秒杀订单
         val success = goodsService.reduceStock(goods)
         if (success) {
@@ -54,7 +54,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     /**
      * 还原环境【测试用】
      */
-    def reset(goodsList: JavaList[GoodsVo]) {
+    val reset = (goodsList: JavaList[GoodsVo]) => {
         goodsService.resetStock(goodsList)
         orderService.deleteOrders()
     }
@@ -62,12 +62,12 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     /**
      * 前台轮询查询秒杀结果
      */
-    def getSeckillResult(userId: Long, goodsId: Long): Long = {
+    val getSeckillResult = (userId: Long, goodsId: Long) => {
 
         val order = orderService.getSeckillOrderByUserIdGoodsId(userId, goodsId)
         if (order != null) { // 秒杀成功
             //返回秒杀商品给前台用来查看订单
-            return order.getOrderId()
+            order.getOrderId()
         } else {
             val isOver = getGoodsOver(goodsId)
             if (isOver) { // 因为卖完了
@@ -81,12 +81,12 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     /**
      * 设置商品是否秒杀完标记
      */
-    def setGoodsOver(goodsId: Long) = redisService.set(SeckillKey.isGoodsOver, "" + goodsId, true)
+    val setGoodsOver = (goodsId: Long) => redisService.set(SeckillKey.isGoodsOver, "" + goodsId, true)
 
     /**
      * 商品是否秒杀完的标记
      */
-    def getGoodsOver(goodsId: Long): Boolean = redisService.exists(SeckillKey.isGoodsOver, "" + goodsId)
+    val getGoodsOver = (goodsId: Long) => redisService.exists(SeckillKey.isGoodsOver, "" + goodsId)
 
     /**
      * 生成随机uuid，作为获取地址携带的参数
@@ -156,7 +156,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     /**
      * 脚本计算验证码
      */
-    private def calc(exp: String): Int = {
+    val calc = (exp: String) => {
         try {
             val manager = new ScriptEngineManager()
             val engine = manager.getEngineByName("JavaScript")
@@ -173,7 +173,7 @@ class SeckillService @Autowired() (goodsService: GoodsService,
     /**
      * 生成验证码的表达式
      */
-    private def generateVerifyCode(rdm: Random): String = {
+    private val generateVerifyCode = (rdm: Random) => {
         val num1 = rdm.nextInt(10)
         val num2 = rdm.nextInt(10)
         val num3 = rdm.nextInt(10)

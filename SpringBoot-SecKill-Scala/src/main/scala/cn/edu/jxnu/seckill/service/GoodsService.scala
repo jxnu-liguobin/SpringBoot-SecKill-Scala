@@ -23,19 +23,19 @@ class GoodsService @Autowired() (goodsDao: GoodsDao) {
     /**
      * 查询全部
      */
-    def listGoodsVo(): JavaList[GoodsVo] = goodsDao.listGoodsVo()
+    val listGoodsVo = () => goodsDao.listGoodsVo()
 
     /**
      * 根据商品id查询商品视图对象
      */
-    def getGoodsVoByGoodsId(id: Long) = goodsDao.getGoodsVoByGoodsId(id)
+    val getGoodsVoByGoodsId = (id: Long) => goodsDao.getGoodsVoByGoodsId(id)
 
     /**
      * 修改商品库存
      *
      * 默认每次减1
      */
-    def reduceStock(goods: GoodsVo): Boolean = {
+    val reduceStock = (goods: GoodsVo) => {
         var g = new SeckillGoods()
         g.setGoodsId(goods.getId())
         goodsDao.reduceStock(g) > 0
@@ -44,7 +44,7 @@ class GoodsService @Autowired() (goodsDao: GoodsDao) {
     /**
      * 恢复库存
      */
-    def resetStock(goodsList: JavaList[GoodsVo]) {
+    val resetStock = (goodsList: JavaList[GoodsVo]) => {
         for (goods <- goodsList) {
             val g = new SeckillGoods()
             g.setGoodsId(goods.getId())
