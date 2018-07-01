@@ -15,22 +15,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @EnableSwagger2
 public class SwaggerConfig {
 
-    @Bean
-    public Docket createRestApi() {
-        return new Docket(DocumentationType.SWAGGER_2)
-                .apiInfo(apiInfo())
-                .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.edu.jxnu.seckill.controller"))
-                .paths(PathSelectors.any())
-                .build();
-    }
+	@Bean
+	public Docket createRestApi() {
+		return new Docket(DocumentationType.SWAGGER_2).apiInfo(apiInfo()).select()
+				.apis(RequestHandlerSelectors.basePackage("cn.edu.jxnu.seckill.controller")).paths(PathSelectors.any())
+				.build();
+	}
 
-    private ApiInfo apiInfo() {
-        return new ApiInfoBuilder()
-                .title("seckill api文档")
-                .description("seckill api")
-                .termsOfServiceUrl("http://127.0.0.1:8080/swagger.html")
-                .version("1.0")
-                .build();
-    }
+	private ApiInfo apiInfo() {
+		return new ApiInfoBuilder().title("seckill api文档").description("seckill api")
+				.description("梦境迷离：https://github.com/jxnu-liguobin")
+				.termsOfServiceUrl("https://github.com/jxnu-liguobin").version("1.0").build();
+	}
 }

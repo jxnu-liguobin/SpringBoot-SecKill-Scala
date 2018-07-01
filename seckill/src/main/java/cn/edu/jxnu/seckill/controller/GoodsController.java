@@ -33,7 +33,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/goods")
-@Api(value = "商品controller", tags = { "商品接口" })
+@Api(value = "商品controller", tags = { "GoodsAPI" }) // tags不要用中文
 public class GoodsController {
 
 	@Autowired

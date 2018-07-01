@@ -1,6 +1,7 @@
 package cn.edu.jxnu.seckill.controller;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -11,11 +12,11 @@ import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/user")
-@Api(value = "用户controller", tags = { "用户接口" })
+@Api(value = "用户controller", tags = { "UserAPI" })
 public class UserController {
 
 	@ApiOperation(value = "获取用户信息接口", notes = "获取用户信息")
-	@RequestMapping("/info")
+	@GetMapping("/info")
 	@ResponseBody
 	public Result<SeckillUser> doLogin(SeckillUser seckillUser) {
 		return Result.success(seckillUser);

@@ -53,7 +53,7 @@ import io.swagger.annotations.ApiOperation;
  */
 @RestController
 @RequestMapping("/seckill")
-@Api(value = "秒杀controller", tags = { "秒杀接口" })
+@Api(value = "秒杀controller", tags = { "SeckillAPI" })
 public class SeckillController implements InitializingBean {
 
 	@Autowired

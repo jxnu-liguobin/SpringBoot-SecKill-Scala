@@ -22,7 +22,7 @@ import io.swagger.annotations.ApiOperation;
 
 @Controller
 @RequestMapping("/demo")
-@Api(value = "测试controller", tags = { "测试接口" })
+@Api(value = "测试controller", tags = { "TestAPI" })
 public class SimpleController {
 
 	@Autowired
