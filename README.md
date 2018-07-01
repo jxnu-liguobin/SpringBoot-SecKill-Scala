@@ -1,5 +1,25 @@
 ## 高并发在线秒杀系统Java版
 
+  
+    语言与主体框架支持
+        
+        SpringBoot1.5.8
+        Scala2.12.3
+        JDK1.8
+        
+    其他技术
+    
+        Swagger
+        RabbitMQ
+        Redis
+        Validation JSR303
+        Mybatis
+        Thymeleaf
+        Bootstrap
+        fastjson
+        commons-codec
+        druid
+
 ##### 测试地址：http://127.0.0.1:8088/login/to_login<br>
 ###### 登录手机号：15312345678<br>
 ###### 密码：123456
@@ -14,7 +34,6 @@
 }
 ```
 ##### 进行登录
-<hr>
 
 ### 实现技术点
 
