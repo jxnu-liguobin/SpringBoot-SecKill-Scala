@@ -18,7 +18,7 @@
             commons-codec
             druid
             
-   
+注意：[seckill分支是Java版本](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/blob/seckill)  
 ### 实现技术点
 
 1. 两次MD5加密
