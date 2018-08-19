@@ -108,15 +108,6 @@
         实现：
         项目使用AccessLimit+Redis来实现限流，AccessLimit是一个注解，定义了时间、访问次数
         
-### 部分代码预览：
-            
-mybatis接口：        
-![](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/blob/master/SpringBoot-SecKill-Scala/src/main/resources/images/mybatis%E6%8E%A5%E5%8F%A3.png)
-拦截器接口实现：
-![](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/blob/master/SpringBoot-SecKill-Scala/src/main/resources/images/%E6%8B%A6%E6%88%AA%E5%99%A8.png)
-Swagger
-![](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/blob/master/SpringBoot-SecKill-Scala/src/main/resources/images/api.png)
-
 
 ### 写该项目理由有以下几点：
 
