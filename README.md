@@ -19,6 +19,9 @@
             druid
             
 注意：[seckill分支是Java版本](https://github.com/jxnu-liguobin/SpringBoot-SecKill-Scala/tree/seckill)  
+
+[慕课网出处](https://coding.imooc.com/class/168.html)
+
 ### 实现技术点
 
 1. 两次MD5加密
