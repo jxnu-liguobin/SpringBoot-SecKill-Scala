@@ -1,7 +1,7 @@
 ### Scala语言实现的慕课网秒杀系统
 
 
-[Scala V2 异步版本](https://github.com/jxnu-liguobin/seckillPro)
+[Scala V2 异步版本 正在开发中](https://github.com/jxnu-liguobin/seckillPro)
 
         语言与主体框架支持
             SpringBoot1.5.8
